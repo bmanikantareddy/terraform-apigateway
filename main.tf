@@ -3,28 +3,16 @@
 #     gateway_id = "ocid1.apigateway.oc1.iad.amaaaaaaz4fdncaafnetzfsah2if27tmqz44cuo6fmo77wjdqhcych5g76oq"
 # }
 
-resource "oci_apigateway_gateway" "APIGateway" {
-  compartment_id = "ocid1.compartment.oc1..aaaaaaaal2o4vaqyt3kiwvezviozntgck5pp33eihmgdvofrxpl4fiiyztaq"
-  endpoint_type  = "PUBLIC"
-  subnet_id      = "ocid1.subnet.oc1.iad.aaaaaaaaek43v3qrcr2aycpdbav5ufe3zq32trulojazand42qdzi4iejd7q"
-  display_name   = "APIGatewayTerraform"
-}
+# resource "oci_apigateway_gateway" "APIGateway" {
+#   compartment_id = "ocid1.compartment.oc1..aaaaaaaal2o4vaqyt3kiwvezviozntgck5pp33eihmgdvofrxpl4fiiyztaq"
+#   endpoint_type  = "PUBLIC"
+#   subnet_id      = "ocid1.subnet.oc1.iad.aaaaaaaaek43v3qrcr2aycpdbav5ufe3zq32trulojazand42qdzi4iejd7q"
+#   display_name   = "APIGatewayTerraform"
+# }
 
 
 
-#Output block to display the gateway details
-output "gateway_details" {
-    value = oci_apigateway_gateway.APIGateway
-}
-
-
-resource "oci_identity_policy" "example_policy" {
-  name           = "example-policy"
-  description    = "Example policy for managing resources"
-  compartment_id = "ocid1.compartment.oc1..aaaaaaaal2o4vaqyt3kiwvezviozntgck5pp33eihmgdvofrxpl4fiiyztaq"
-
-  statements = [
-    "Allow group Administrators to manage all-resources in compartment api-gw",
-    "Allow group NetworkAdmins to manage virtual-network-family in compartment api-gw"
-  ]
-}
+# #Output block to display the gateway details
+# output "gateway_details" {
+#     value = oci_apigateway_gateway.APIGateway
+# }

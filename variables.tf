@@ -32,3 +32,8 @@ variable "api_gateway_name" {
   type        = string
   default     = "example-api-gateway"
 }
+variable "public_subnet_id" {
+  description = "provide public_subnet_id if create_new_vcn is false"
+  type        = string
+  default     = ""
+}
