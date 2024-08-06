@@ -7,3 +7,7 @@ data "oci_apigateway_deployment" "test_deployment" {
     #Required
     deployment_id = "ocid1.apideployment.oc1.iad.amaaaaaaz4fdncaahqpfezktvoup4sbx6iwsatay6kz2pmsxfsx37sjpnpgq"
 }
+
+output "oci_apigateway_deployment_output" {
+    value = data.oci_apigateway_deployment.test_deployment
+}
