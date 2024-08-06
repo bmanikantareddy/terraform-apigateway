@@ -29,7 +29,15 @@ resource "oci_apigateway_deployment" "apigw_deployment" {
     path_prefix = "/v1"
     display_name = "deployment1"
 
-   specification {
+    specification {
+      logging_policies {
+        access_log {}
+        execution_log {
+                is_enabled = true
+                log_level  = "INFO"
+            }
+      }
+
     routes {
       path    = "/hello"
       methods = ["GET"]
