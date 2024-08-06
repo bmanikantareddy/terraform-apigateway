@@ -31,7 +31,9 @@ resource "oci_apigateway_deployment" "apigw_deployment" {
 
     specification {
       logging_policies {
-        access_log {}
+        access_log {
+                is_enabled = true
+            }
         execution_log {
                 is_enabled = true
                 log_level  = "INFO"
