@@ -6,6 +6,29 @@
 #   vcn_name       = var.vcn_name
 #   vcn_id         = var.vcn_id
 # }
+variable "deployment_path_prefix" {
+  default = "/v2"
+}
+
+variable "deployment_specification_routes_backend_type" {
+  default = "HTTP_BACKEND"
+}
+
+variable "deployment_specification_routes_backend_url" {
+  default = "https://api.weather.gov"
+}
+
+variable "deployment_specification_routes_methods" {
+  default = ["GET"]
+}
+
+variable "deployment_specification_routes_path" {
+  default = "/hello"
+}
+variable "deployment_specification_routes_path1" {
+  default = "/hello1"
+}
+
 
 resource "oci_apigateway_gateway" "api_gateway" {
   compartment_id = var.compartment_id
@@ -125,4 +148,110 @@ resource "oci_apigateway_deployment" "apigw_deployment" {
       }
     }
   }
+}
+
+
+resource "oci_apigateway_deployment" "test_deployment" {
+  #Required
+  compartment_id = var.compartment_id
+  gateway_id     = oci_apigateway_gateway.api_gateway.id
+  path_prefix    = var.deployment_path_prefix
+
+  specification {
+    request_policies {
+      authentication {
+        type                        = "JWT_AUTHENTICATION"
+        token_header                = "Authorization"
+        token_auth_scheme           = "Bearer"
+        is_anonymous_access_allowed = "false"
+        issuers                     = ["https://identity.oraclecloud.com/"]
+        audiences                   = ["${oci_apigateway_gateway.api_gateway.hostname}"]
+        max_clock_skew_in_seconds   = "10"
+
+        public_keys {
+          is_ssl_verify_disabled = false
+          type = "STATIC_KEYS"
+          keys {
+            alg = "RS256"
+            e = "AQAB"
+            format = "JSON_WEB_KEY"
+            key = ""
+            key_ops = []
+            kid = "SIGNING_KEY"
+            kty = "RSA"
+            n = "sXTvafoBh22bXk492Lp-OOaPRdcQJx3MtdOytgoBjgEOMQXT_nKoSISgxMF0MoEIZqrqMdiuycrK4sXgVc2cMmDZRG0Nsucze2x9hPJ8N-YDa6dPON9xU0nrtGf49E4BT1fdRt8c2zQHS_25K-JaZlhrWuy3wAbczUFTzqsvxPYs4ku704gXrPKH-gg1PUI6zYs4dtIoPLzKCDywNDcjBsFV5eLwpDuEnlQ8mnmJt8RmsddBd4tNPTBQXKfHJisIYqjT4qhmTpI4e1LdkEs5dl2Pr2OxpB--ZDE7owaR7sOtbD4mMgeqP7qLP4eaCIKz6WA4mWOlm-evTvVfjcOVew"
+            use = "sig"
+          }
+          # max_cache_duration_in_hours = "10"
+          # uri                         = "https://oracle.com/jwks.json"
+        }
+      }
+
+      # cors {
+      #   allowed_origins = ["*"]
+      #   allowed_methods = ["GET"]
+      # }
+
+      # rate_limiting {
+      #   rate_in_requests_per_second = "10"
+      #   rate_key                    = "CLIENT_IP"
+      # }
+      usage_plans {
+        #Required
+        token_locations = ["request.headers[client-id]"]
+      }
+    }
+    routes {
+      #Required
+      backend {
+        #Required
+        type = var.deployment_specification_routes_backend_type
+        url  = var.deployment_specification_routes_backend_url
+      }
+      path = var.deployment_specification_routes_path
+      methods = var.deployment_specification_routes_methods
+    }
+    routes {
+      #Required
+      backend {
+        #Required
+        type = var.deployment_specification_routes_backend_type
+        url  = var.deployment_specification_routes_backend_url
+      }
+      path = var.deployment_specification_routes_path1
+      methods = var.deployment_specification_routes_methods
+    }
+  }
+}
+
+
+resource "oci_apigateway_usage_plan" "test_usage_plan" {
+  #Required
+  compartment_id = var.compartment_id
+  entitlements {
+    #Required
+    name = "usagePlanEntitlementsTF"
+
+    #Optional
+    description = "usage plan entitlements created with terraform"
+    quota {
+      #Required
+      operation_on_breach = "REJECT"
+      reset_policy        = "CALENDAR"
+      unit                = "MINUTE"
+      value               = 10
+    }
+    rate_limit {
+      #Required
+      unit  = "SECOND"
+      value = 10
+    }
+    targets {
+      #Required
+      deployment_id = oci_apigateway_deployment.test_deployment.id
+    }
+  }
+
+  #Optional
+  display_name  = "usage_plan_test_tf"
 }
