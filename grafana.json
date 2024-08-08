@@ -1,0 +1,690 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 1,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "oci-metrics-datasource",
+        "uid": "ddu3yjiukphc0d"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 11,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "compartment": "$compartment",
+          "compartmentName": "$compartment",
+          "datasource": {
+            "type": "oci-metrics-datasource",
+            "uid": "ddu3yjiukphc0d"
+          },
+          "dimensionValues": [],
+          "groupBy": "select option (optional)",
+          "hide": false,
+          "interval": "[1m]",
+          "intervalLabel": "1 minute",
+          "legendFormat": "",
+          "metric": "select metric",
+          "metricNames": "$resourcegroup",
+          "namespace": "$namespace",
+          "queryText": "HttpRequests[1m]{deploymentName = \"users-api\", route =~ \"/*\",httpStatusCategory = \"2XX\"}.groupBy(route,deploymentName).count()",
+          "queryTextRaw": "HttpRequests[1m]{deploymentName = \"users-api\", route =~ \"/*\",httpStatusCategory = \"2XX\"}.groupBy(route,deploymentName).count()",
+          "rawQuery": false,
+          "refId": "A",
+          "region": "$region",
+          "resourcegroup": "$resourcegroup",
+          "statistic": "count()",
+          "statisticLabel": "count",
+          "tagsValues": [],
+          "tenancy": "DEFAULT/",
+          "tenancyName": "DEFAULT/"
+        }
+      ],
+      "title": "2XX",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "oci-metrics-datasource",
+        "uid": "ddu3yjiukphc0d"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 9,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "compartment": "$compartment",
+          "compartmentName": "$compartment",
+          "datasource": {
+            "type": "oci-metrics-datasource",
+            "uid": "ddu3yjiukphc0d"
+          },
+          "dimensionValues": [],
+          "groupBy": "select option (optional)",
+          "hide": false,
+          "interval": "[1m]",
+          "intervalLabel": "1 minute",
+          "legendFormat": "",
+          "metric": "select metric",
+          "metricNames": "$resourcegroup",
+          "namespace": "$namespace",
+          "queryText": "HttpRequests[1m]{deploymentName = \"users-api\", route =~ \"/*\",httpStatusCategory = \"3XX\"}.groupBy(route,deploymentName).count()",
+          "queryTextRaw": "HttpRequests[1m]{deploymentName = \"users-api\", route =~ \"/*\",httpStatusCategory = \"3XX\"}.groupBy(route,deploymentName).count()",
+          "rawQuery": false,
+          "refId": "A",
+          "region": "$region",
+          "resourcegroup": "$resourcegroup",
+          "statistic": "count()",
+          "statisticLabel": "count",
+          "tagsValues": [],
+          "tenancy": "DEFAULT/",
+          "tenancyName": "DEFAULT/"
+        }
+      ],
+      "title": "3XX",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "oci-metrics-datasource",
+        "uid": "ddu3yjiukphc0d"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 10,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "compartment": "$compartment",
+          "compartmentName": "$compartment",
+          "datasource": {
+            "type": "oci-metrics-datasource",
+            "uid": "ddu3yjiukphc0d"
+          },
+          "dimensionValues": [],
+          "groupBy": "select option (optional)",
+          "hide": false,
+          "interval": "[1m]",
+          "intervalLabel": "1 minute",
+          "legendFormat": "",
+          "metric": "select metric",
+          "metricNames": "$resourcegroup",
+          "namespace": "$namespace",
+          "queryText": "HttpRequests[1m]{deploymentName = \"users-api\", route =~ \"/*\",httpStatusCategory = \"4XX\"}.groupBy(route,deploymentName).count()",
+          "queryTextRaw": "HttpRequests[1m]{deploymentName = \"users-api\", route =~ \"/*\",httpStatusCategory = \"4XX\"}.groupBy(route,deploymentName).count()",
+          "rawQuery": false,
+          "refId": "A",
+          "region": "$region",
+          "resourcegroup": "$resourcegroup",
+          "statistic": "count()",
+          "statisticLabel": "count",
+          "tagsValues": [],
+          "tenancy": "DEFAULT/",
+          "tenancyName": "DEFAULT/"
+        }
+      ],
+      "title": "4XX",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "oci-metrics-datasource",
+        "uid": "ddu3yjiukphc0d"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 5,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "compartment": "$compartment",
+          "compartmentName": "$compartment",
+          "datasource": {
+            "type": "oci-metrics-datasource",
+            "uid": "ddu3yjiukphc0d"
+          },
+          "dimensionValues": [],
+          "groupBy": "select option (optional)",
+          "hide": false,
+          "interval": "[1m]",
+          "intervalLabel": "1 minute",
+          "legendFormat": "",
+          "metric": "select metric",
+          "metricNames": "$resourcegroup",
+          "namespace": "$namespace",
+          "queryText": "HttpRequests[1m]{deploymentName = \"users-api\", route =~ \"/*\",httpStatusCategory = \"5XX\"}.groupBy(route,deploymentName).count()",
+          "queryTextRaw": "HttpRequests[1m]{deploymentName = \"users-api\", route =~ \"/*\",httpStatusCategory = \"5XX\"}.groupBy(route,deploymentName).count()",
+          "rawQuery": false,
+          "refId": "A",
+          "region": "$region",
+          "resourcegroup": "$resourcegroup",
+          "statistic": "count()",
+          "statisticLabel": "count",
+          "tagsValues": [],
+          "tenancy": "DEFAULT/",
+          "tenancyName": "DEFAULT/"
+        }
+      ],
+      "title": "5XX",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "oci-metrics-datasource",
+        "uid": "ddu3yjiukphc0d"
+      },
+      "description": "http request count average per min",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 24,
+        "x": 0,
+        "y": 16
+      },
+      "id": 1,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "compartment": "$compartment",
+          "compartmentName": "$compartment",
+          "datasource": {
+            "type": "oci-metrics-datasource",
+            "uid": "ddu3yjiukphc0d"
+          },
+          "dimensionValues": [],
+          "groupBy": "select option (optional)",
+          "hide": false,
+          "interval": "[1m]",
+          "intervalLabel": "1 minute",
+          "legendFormat": "",
+          "metric": "select metric",
+          "metricNames": "$namespace",
+          "namespace": "$namespace",
+          "queryText": "HttpRequests[1m]{resourceName = \"api-gw-demo\", deploymentName =~ \"*\"}.groupBy(deploymentName).count()",
+          "queryTextRaw": "HttpRequests[1m]{resourceName = \"api-gw-demo\", deploymentName =~ \"*\"}.groupBy(deploymentName).count()",
+          "rawQuery": false,
+          "refId": "A",
+          "region": "$region",
+          "resourcegroup": "",
+          "statistic": "count()",
+          "statisticLabel": "count",
+          "tagsValues": [],
+          "tenancy": "DEFAULT/",
+          "tenancyName": "DEFAULT/"
+        }
+      ],
+      "title": "HttpRequestCount",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "auto",
+  "schemaVersion": 39,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": "us-ashburn-1",
+          "value": "us-ashburn-1"
+        },
+        "datasource": {
+          "type": "oci-metrics-datasource",
+          "uid": "ddu3yjiukphc0d"
+        },
+        "definition": "regions($tenancy)",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "region",
+        "options": [],
+        "query": "regions($tenancy)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "anlyzerspotlet49 > api-gw",
+          "value": "anlyzerspotlet49 > api-gw"
+        },
+        "datasource": {
+          "type": "oci-metrics-datasource",
+          "uid": "ddu3yjiukphc0d"
+        },
+        "definition": "compartments($tenancy)",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "compartment",
+        "options": [],
+        "query": "compartments($tenancy)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "oci_apigateway",
+          "value": "oci_apigateway"
+        },
+        "datasource": {
+          "type": "oci-metrics-datasource",
+          "uid": "ddu3yjiukphc0d"
+        },
+        "definition": "namespaces($region,$compartment)",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "namespace",
+        "options": [],
+        "query": "namespaces($region,$compartment)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "NoResourceGroup",
+          "value": "NoResourceGroup"
+        },
+        "datasource": {
+          "type": "oci-metrics-datasource",
+          "uid": "ddu3yjiukphc0d"
+        },
+        "definition": "resourcegroups($region, $compartment, $namespace)",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "resourcegroup",
+        "options": [],
+        "query": "resourcegroups($region, $compartment, $namespace)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "OCI APIGateway",
+  "uid": "cdu46e1riszcwc",
+  "version": 16,
+  "weekStart": ""
+}
