@@ -1,25 +1,25 @@
-variable "deployment_path_prefix" {
-  default = "/v2"
-}
+# variable "deployment_path_prefix" {
+#   default = "/v2"
+# }
 
-variable "deployment_specification_routes_backend_type" {
-  default = "HTTP_BACKEND"
-}
+# variable "deployment_specification_routes_backend_type" {
+#   default = "HTTP_BACKEND"
+# }
 
-variable "deployment_specification_routes_backend_url" {
-  default = "https://api.weather.gov"
-}
+# variable "deployment_specification_routes_backend_url" {
+#   default = "https://api.weather.gov"
+# }
 
-variable "deployment_specification_routes_methods" {
-  default = ["GET"]
-}
+# variable "deployment_specification_routes_methods" {
+#   default = ["GET"]
+# }
 
-variable "deployment_specification_routes_path" {
-  default = "/hello"
-}
-variable "deployment_specification_routes_path1" {
-  default = "/hello1"
-}
+# variable "deployment_specification_routes_path" {
+#   default = "/hello"
+# }
+# variable "deployment_specification_routes_path1" {
+#   default = "/hello1"
+# }
 
 resource "oci_apigateway_gateway" "this" {
   count          = length(var.gateway)
@@ -532,12 +532,12 @@ resource "oci_apigateway_deployment" "this" {
         #       rate_key                    = lookup(rate_limiting.value, "rate_key")
         #     }
         #   }
-        #   dynamic "usage_plans" {
-        #     for_each = lookup(request_policies.value, "usage_plans") == null ? [] : ["usage_plans"]
-        #     content {
-        #       token_locations = lookup(usage_plans.value, "token_locations")
-        #     }
-        #   }
+          dynamic "usage_plans" {
+            for_each = lookup(request_policies.value, "usage_plans", [])
+            content {
+              token_locations = lookup(usage_plans.value, "token_locations")
+            }
+          }
         }
       }
       dynamic "routes" {
@@ -835,16 +835,79 @@ resource "oci_apigateway_deployment" "this" {
           }
         }
       }
-    routes {
-      #Required
-      backend {
-        #Required
-        type = var.deployment_specification_routes_backend_type
-        url  = var.deployment_specification_routes_backend_url
-      }
-      path = var.deployment_specification_routes_path
-      methods = var.deployment_specification_routes_methods
     }
+  }
+}
+
+resource "oci_apigateway_subscriber" "this" {
+  count          = length(var.subscriber) == "0" ? "0" : length(var.usage_plans)
+  compartment_id = var.compartment_id
+  #usage_plans    = lookup(var.subscriber[count.index], "usage_plans")
+  usage_plans    = oci_apigateway_usage_plan.this[*].id
+  defined_tags = merge(
+    var.defined_tags,
+    lookup(var.subscriber[count.index], "defined_tags")
+  )
+  display_name = lookup(var.subscriber[count.index], "display_name")
+  freeform_tags = merge(
+    var.freeform_tags,
+    lookup(var.subscriber[count.index], "freeform_tags")
+  )
+
+  dynamic "clients" {
+    for_each = lookup(var.subscriber[count.index], "clients")
+    content {
+      name  = lookup(clients.value, "name")
+      token = lookup(clients.value, "token")
+
+    }
+  }
+}
+
+resource "oci_apigateway_usage_plan" "this" {
+  count          = length(var.usage_plans)
+  compartment_id = var.compartment_id
+  defined_tags = merge(
+    var.defined_tags,
+    lookup(var.usage_plans[count.index], "defined_tags")
+  )
+  display_name = lookup(var.usage_plans[count.index], "display_name")
+  freeform_tags = merge(
+    var.freeform_tags,
+    lookup(var.usage_plans[count.index], "freeform_tags")
+  )
+
+  dynamic "entitlements" {
+    for_each = lookup(var.usage_plans[count.index], "entitlements")
+    content {
+      name        = lookup(entitlements.value, "name")
+      description = lookup(entitlements.value, "description")
+
+      dynamic "quota" {
+        for_each = lookup(entitlements.value, "quota", [])
+        content {
+          operation_on_breach = lookup(quota.value, "operation_on_breach")
+          reset_policy        = lookup(quota.value, "reset_policy")
+          unit                = lookup(quota.value, "unit")
+          value               = lookup(quota.value, "value")
+        }
+      }
+
+      dynamic "rate_limit" {
+        for_each = lookup(entitlements.value, "rate_limit", [])
+        content {
+          unit  = lookup(rate_limit.value, "unit")
+          value = lookup(rate_limit.value, "value")
+        }
+      }
+
+      dynamic "targets" {
+        for_each = lookup(entitlements.value, "targets", [])
+        content {
+          deployment_id = try(element(oci_apigateway_deployment.this.*.id, lookup(targets.value, "deployment_id"))
+          )
+        }
+      }
     }
   }
 }

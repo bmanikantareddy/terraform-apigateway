@@ -18,6 +18,7 @@ gateway = [
   }
 ]
 
+# deployment Object containing details to create OCI API gateway deployment
 deployment = [
   {
     id            = 1
@@ -97,11 +98,11 @@ deployment = [
             #     rate_key                    = "client_ip"
             #   }
             # ]
-            # usage_plans = [
-            #   {
-            #     token_locations = ["header"]
-            #   }
-            # ]
+            usage_plans = [
+              {
+                token_locations = ["request.headers[client-id]"]
+              }
+            ]
           }
         ]
         routes = [ 
@@ -160,12 +161,149 @@ deployment = [
                 ]
               }
             ]
+          },
+          # route3
+          {
+            path    = "/hello"
+            methods = ["GET"]
+            backend = [
+              {
+                type                       = "HTTP_BACKEND"
+                url                        = "https://api.weather.gov"
+                is_ssl_verify_disabled     = false
+                headers = []
+              }
+            ]
+            logging_policies = [
+              {
+                access_log = [
+                  {
+                    is_enabled = true
+                  }
+                ]
+                execution_log = [
+                  {
+                    is_enabled = true
+                    log_level  = "INFO"
+                  }
+                ]
+              }
+            ]
+          }
+
+        ]
+      }
+    ]
+  }
+]
+
+## 
+subscriber = [
+  {
+    id = 1
+    usage_plans = ["BasicPlan", "PremiumPlan"]
+    defined_tags = {}
+    display_name = "Subscriber1"
+    freeform_tags = {
+      Owner = "TeamA"
+    }
+    clients = [
+      {
+        name  = "ClientA"
+        token = "abc123"
+      },
+      {
+        name  = "ClientB"
+        token = "def456"
+      }
+    ]
+  },
+  {
+    id = 2
+    usage_plans = ["BasicPlan"]
+    defined_tags = {}
+    display_name = "Subscriber2"
+    freeform_tags = {
+      Owner = "TeamB"
+    }
+    clients = [
+      {
+        name  = "ClientC"
+        token = "ghi789"
+      }
+    ]
+  }
+]
+
+usage_plans = [
+  {
+    id = 101
+    defined_tags = {}
+    display_name = "BasicPlan"
+    freeform_tags = {
+      Owner = "oal team"
+    }
+    entitlements = [
+      {
+        name        = "Entitlement1"
+        description = "Basic plan entitlement"
+        quota = [
+          {
+            operation_on_breach = "REJECT"
+            reset_policy        = "CALENDAR"
+            unit                = "HOUR"
+            value               = 1000
+          }
+        ]
+        rate_limit = [
+          {
+            unit  = "SECOND"
+            value = 10
+          }
+        ]
+        targets = [
+          {
+            deployment_id = 201
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id = 102
+    defined_tags = {}
+    display_name = "PremiumPlan"
+    freeform_tags = {
+      Owner = "OAL Team"
+    }
+    entitlements = [
+      {
+        name        = "Entitlement2"
+        description = "Premium plan entitlement"
+        quota = [
+          {
+            operation_on_breach = "ALLOW"
+            reset_policy        = "CALENDAR"
+            unit                = "HOUR"
+            value               = 5000
+          }
+        ]
+        rate_limit = [
+          {
+            unit  = "SECOND"
+            value = 50
+          }
+        ]
+        targets = [
+          {
+            deployment_id = 202
           }
         ]
       }
     ]
   }
 ]
+
 
 ##############
 # Example Values for variables defined in variable.tf
@@ -423,3 +561,118 @@ deployment = [
 #   }
 # ]
 
+## exmaple values for subscription and usage plan for OCI API gateway
+
+# subscriber = [
+#   {
+#     id = 1
+#     usage_plans = ["BasicPlan", "PremiumPlan"]
+#     defined_tags = {
+#       Environment = "Production"
+#     }
+#     display_name = "Subscriber1"
+#     freeform_tags = {
+#       Owner = "TeamA"
+#     }
+#     clients = [
+#       {
+#         name  = "ClientA"
+#         token = "abc123"
+#       },
+#       {
+#         name  = "ClientB"
+#         token = "def456"
+#       }
+#     ]
+#   },
+#   {
+#     id = 2
+#     usage_plans = ["StandardPlan"]
+#     defined_tags = {
+#       Environment = "Staging"
+#     }
+#     display_name = "Subscriber2"
+#     freeform_tags = {
+#       Owner = "TeamB"
+#     }
+#     clients = [
+#       {
+#         name  = "ClientC"
+#         token = "ghi789"
+#       }
+#     ]
+#   }
+# ]
+
+# usage_plans = [
+#   {
+#     id = 101
+#     defined_tags = {
+#       Department = "Finance"
+#     }
+#     display_name = "BasicPlan"
+#     freeform_tags = {
+#       Owner = "TeamA"
+#     }
+#     entitlements = [
+#       {
+#         name        = "Entitlement1"
+#         description = "Basic plan entitlement"
+#         quota = [
+#           {
+#             operation_on_breach = "Notify"
+#             reset_policy        = "Daily"
+#             unit                = "Requests"
+#             value               = 1000
+#           }
+#         ]
+#         rate_limit = [
+#           {
+#             unit  = "Requests"
+#             value = 10
+#           }
+#         ]
+#         targets = [
+#           {
+#             deployment_id = 201
+#           }
+#         ]
+#       }
+#     ]
+#   },
+#   {
+#     id = 102
+#     defined_tags = {
+#       Department = "IT"
+#     }
+#     display_name = "PremiumPlan"
+#     freeform_tags = {
+#       Owner = "TeamB"
+#     }
+#     entitlements = [
+#       {
+#         name        = "Entitlement2"
+#         description = "Premium plan entitlement"
+#         quota = [
+#           {
+#             operation_on_breach = "Throttle"
+#             reset_policy        = "Hourly"
+#             unit                = "Requests"
+#             value               = 5000
+#           }
+#         ]
+#         rate_limit = [
+#           {
+#             unit  = "Requests"
+#             value = 50
+#           }
+#         ]
+#         targets = [
+#           {
+#             deployment_id = 202
+#           }
+#         ]
+#       }
+#     ]
+#   }
+# ]

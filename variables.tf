@@ -491,3 +491,51 @@ variable "deployment" {
   This resource provides the Deployment resource in Oracle Cloud Infrastructure API Gateway service.
   EOF
 }
+
+variable "subscriber" {
+  type = list(object({
+    id            = number
+    usage_plans   = list(string)
+    defined_tags  = optional(map(string))
+    display_name  = optional(string)
+    freeform_tags = optional(map(string))
+    clients = list(object({
+      name  = string
+      token = string
+    }))
+  }))
+  default = []
+  description = <<EOF
+This resource provides the Subscriber resource in Oracle Cloud Infrastructure API Gateway service.
+EOF
+}
+
+variable "usage_plans" {
+  type = list(object({
+    id            = number
+    defined_tags  = optional(map(string))
+    display_name  = optional(string)
+    freeform_tags = optional(map(string))
+    entitlements = list(object({
+      name        = string
+      description = optional(string)
+      quota = optional(list(object({
+        operation_on_breach = string
+        reset_policy        = string
+        unit                = string
+        value               = number
+      })), [])
+      rate_limit = optional(list(object({
+        unit  = string
+        value = number
+      })), [])
+      targets = optional(list(object({
+        deployment_id = number
+      })), [])
+    }))
+  }))
+  default = []
+  description = <<EOF
+This resource provides the Usage Plan resource in Oracle Cloud Infrastructure API Gateway service.
+EOF
+}

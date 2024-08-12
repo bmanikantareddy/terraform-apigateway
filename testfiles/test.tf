@@ -12,3 +12,14 @@ data "oci_apigateway_deployment" "test_deployment" {
 output "oci_apigateway_deployment_output" {
     value = data.oci_apigateway_deployment.test_deployment
 }
+
+
+data "oci_apigateway_usage_plan" "test_usage_plan" {
+    #Required
+    usage_plan_id = "ocid1.apigatewayusageplan.oc1.iad.amaaaaaaz4fdncaaomgflatagjkvuyaywxtgcbauej4tiavst5nyw2i4itvq"
+}
+
+
+output "oci_apigateway_usage_plan_output" {
+    value = data.oci_apigateway_usage_plan.test_usage_plan
+}
