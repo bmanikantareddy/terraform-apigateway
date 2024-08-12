@@ -68,11 +68,11 @@ deployment = [
                         alg     = "RS256"
                         e       = "AQAB"
                         format  = "JSON_WEB_KEY"
-                        key_ops = []
                         kid     = "SIGNING_KEY"
                         kty     = "RSA"
                         n       = "sXTvafoBh22bXk492Lp-OOaPRdcQJx3MtdOytgoBjgEOMQXT_nKoSISgxMF0MoEIZqrqMdiuycrK4sXgVc2cMmDZRG0Nsucze2x9hPJ8N-YDa6dPON9xU0nrtGf49E4BT1fdRt8c2zQHS_25K-JaZlhrWuy3wAbczUFTzqsvxPYs4ku704gXrPKH-gg1PUI6zYs4dtIoPLzKCDywNDcjBsFV5eLwpDuEnlQ8mnmJt8RmsddBd4tNPTBQXKfHJisIYqjT4qhmTpI4e1LdkEs5dl2Pr2OxpB--ZDE7owaR7sOtbD4mMgeqP7qLP4eaCIKz6WA4mWOlm-evTvVfjcOVew"
                         use     = "sig"
+                        key_ops = ""
                       }
                     ]
                   }
@@ -104,7 +104,7 @@ deployment = [
             # ]
           }
         ]
-        routes = [
+        routes = [ 
           # route1  
           {
             path    = "/users"
@@ -132,35 +132,35 @@ deployment = [
                 ]
               }
             ]
-          },
-          # route2  
-          {
-            path    = "/users/{userid}"
-            methods = ["GET"]
-            backend = [
-              {
-                type                       = "HTTP"
-                url                        = "http://129.159.105.110/users/$${request.path[userid]}"
-                is_ssl_verify_disabled     = false
-                headers = []
-              }
-            ]
-            logging_policies = [
-              {
-                access_log = [
-                  {
-                    is_enabled = true
-                  }
-                ]
-                execution_log = [
-                  {
-                    is_enabled = true
-                    log_level  = "DEBUG"
-                  }
-                ]
-              }
-            ]
-          }
+          }#,
+          # # route2  
+          # {
+          #   path    = "/users/{userid}"
+          #   methods = ["GET"]
+          #   backend = [
+          #     {
+          #       type                       = "HTTP"
+          #       url                        = "http://129.159.105.110/users/$${request.path[userid]}"
+          #       is_ssl_verify_disabled     = false
+          #       headers = []
+          #     }
+          #   ]
+          #   logging_policies = [
+          #     {
+          #       access_log = [
+          #         {
+          #           is_enabled = true
+          #         }
+          #       ]
+          #       execution_log = [
+          #         {
+          #           is_enabled = true
+          #           log_level  = "DEBUG"
+          #         }
+          #       ]
+          #     }
+          #   ]
+          # }
         ]
       }
     ]
