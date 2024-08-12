@@ -5,7 +5,8 @@ data "oci_apigateway_gateway" "test_gateway" {
 
 data "oci_apigateway_deployment" "test_deployment" {
     #Required
-    deployment_id = "ocid1.apideployment.oc1.iad.amaaaaaaz4fdncaahqpfezktvoup4sbx6iwsatay6kz2pmsxfsx37sjpnpgq"
+    #deployment_id = "ocid1.apideployment.oc1.iad.amaaaaaaz4fdncaahqpfezktvoup4sbx6iwsatay6kz2pmsxfsx37sjpnpgq"
+    deployment_id = "ocid1.apideployment.oc1.iad.amaaaaaaz4fdncaahev6wnwbes732mqanky63fdzjqtcvthuo7xvf7ajk3da"
 }
 
 output "oci_apigateway_deployment_output" {
