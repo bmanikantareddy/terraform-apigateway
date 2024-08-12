@@ -3,37 +3,51 @@ variable "compartment_id" {
   type        = string
 }
 
-variable "create_new_vcn" {
-  description = "Whether to create a new VCN or use an existing one"
-  type        = bool
-  default     = true
+# this defined_tags and Freeform_tags will apply for all the objectes created with this file.
+variable "defined_tags" {
+  type    = map(string)
+  default = {}
+  description = "Defined tags"
 }
 
-variable "vcn_cidr" {
-  description = "The CIDR block for the VCN"
-  type        = string
-  default     = "10.0.0.0/16"
+variable "freeform_tags" {
+  type    = map(string)
+  default = {}
+  description = "Freeform tags"
 }
 
-variable "vcn_name" {
-  description = "The name of the VCN"
-  type        = string
-  default     = "example-vcn"
-}
-
-variable "vcn_id" {
-  description = "The OCID of the existing VCN"
-  type        = string
-  default     = ""
-}
-
-variable "api_gateway_name" {
-  description = "The name of the API Gateway"
-  type        = string
-  default     = "example-api-gateway"
-}
-variable "public_subnet_id" {
-  description = "provide public_subnet_id if create_new_vcn is false"
-  type        = string
-  default     = ""
+variable "gateway" {
+  type = list(object({
+    id                         = number
+    endpoint_type              = string
+    subnet_id                  = string
+    certificate_id             = optional(number)
+    defined_tags               = optional(map(string))
+    display_name               = optional(string)
+    freeform_tags              = optional(map(string))
+    network_security_group_ids = optional(list(string))
+    ca_bundles = optional(list(object({
+      type                     = string
+      ca_bundle_id             = optional(string)
+      certificate_authority_id = optional(string)
+    })), [])
+    response_cache_details = optional(list(object({
+      type                                 = string
+      authentication_secret_id             = optional(string)
+      authentication_secret_version_number = optional(string)
+      connect_timeout_in_ms                = optional(number)
+      is_ssl_enabled                       = optional(bool)
+      is_ssl_verify_disabled               = optional(number)
+      read_timeout_in_ms                   = optional(number)
+      send_timeout_in_ms                   = optional(number)
+      servers = optional(list(object({
+        host = optional(string)
+        port = optional(number)
+      })), [])
+    })), [])
+  }))
+  default = []
+  description = <<EOF
+  This resouces provision the OCI API gateway for OAL GEN LLMA 
+EOF
 }
