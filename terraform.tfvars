@@ -132,35 +132,35 @@ deployment = [
                 ]
               }
             ]
-          }#,
-          # # route2  
-          # {
-          #   path    = "/users/{userid}"
-          #   methods = ["GET"]
-          #   backend = [
-          #     {
-          #       type                       = "HTTP"
-          #       url                        = "http://129.159.105.110/users/$${request.path[userid]}"
-          #       is_ssl_verify_disabled     = false
-          #       headers = []
-          #     }
-          #   ]
-          #   logging_policies = [
-          #     {
-          #       access_log = [
-          #         {
-          #           is_enabled = true
-          #         }
-          #       ]
-          #       execution_log = [
-          #         {
-          #           is_enabled = true
-          #           log_level  = "DEBUG"
-          #         }
-          #       ]
-          #     }
-          #   ]
-          # }
+          },
+          # route2  
+          {
+            path    = "/users/{userid}"
+            methods = ["GET"]
+            backend = [
+              {
+                type                       = "HTTP_BACKEND"
+                url                        = "http://129.159.105.110/users/$${request.path[userid]}"
+                is_ssl_verify_disabled     = false
+                headers = []
+              }
+            ]
+            logging_policies = [
+              {
+                access_log = [
+                  {
+                    is_enabled = true
+                  }
+                ]
+                execution_log = [
+                  {
+                    is_enabled = true
+                    log_level  = "INFO"
+                  }
+                ]
+              }
+            ]
+          }
         ]
       }
     ]
