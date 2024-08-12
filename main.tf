@@ -540,303 +540,301 @@ resource "oci_apigateway_deployment" "this" {
         #   }
         }
       }
-    #   dynamic "routes" {
-    #     #for_each = lookup(specification.value, "routes") == null ? [] : ["routes"]
-    #     for_each = lookup(specification.value, "routes",[])
-    #     content {
-    #       path    = lookup(routes.value, "path")
-    #       methods = lookup(routes.value, "methods")
+      dynamic "routes" {
+        for_each = lookup(specification.value, "routes",[])
+        content {
+          path    = lookup(routes.value, "path")
+          methods = lookup(routes.value, "methods")
 
-    #       dynamic "backend" {
-    #         #for_each = lookup(routes.value, "backend") == null ? [] : ["backend"]
-    #         for_each = lookup(routes.value, "backend",[])
-    #         content {
-    #           type                       = lookup(backend.value, "type")
-    #           allowed_post_logout_uris   = lookup(backend.value, "allowed_post_logout_uris")
-    #           body                       = lookup(backend.value, "body")
-    #           connect_timeout_in_seconds = lookup(backend.value, "connect_timeout_in_seconds")
-    #           function_id                = lookup(backend.value, "function_id")
-    #           is_ssl_verify_disabled     = lookup(backend.value, "is_ssl_verify_disabled")
-    #           post_logout_state          = lookup(backend.value, "post_logout_state")
-    #           read_timeout_in_seconds    = lookup(backend.value, "read_timeout_in_seconds")
-    #           send_timeout_in_seconds    = lookup(backend.value, "send_timeout_in_seconds")
-    #           status                     = lookup(backend.value, "status")
-    #           url                        = lookup(backend.value, "url")
+          dynamic "backend" {
+            for_each = lookup(routes.value, "backend",[])
+            content {
+              type                       = lookup(backend.value, "type")
+              allowed_post_logout_uris   = lookup(backend.value, "allowed_post_logout_uris")
+              body                       = lookup(backend.value, "body")
+              connect_timeout_in_seconds = lookup(backend.value, "connect_timeout_in_seconds")
+              function_id                = lookup(backend.value, "function_id")
+              is_ssl_verify_disabled     = lookup(backend.value, "is_ssl_verify_disabled")
+              post_logout_state          = lookup(backend.value, "post_logout_state")
+              read_timeout_in_seconds    = lookup(backend.value, "read_timeout_in_seconds")
+              send_timeout_in_seconds    = lookup(backend.value, "send_timeout_in_seconds")
+              status                     = lookup(backend.value, "status")
+              url                        = lookup(backend.value, "url")
 
-    #           dynamic "headers" {
-    #             for_each = lookup(backend.value, "headers") == null ? [] : ["headers"]
-    #             content {
-    #               name  = lookup(backend.value, "name")
-    #               value = lookup(backend.value, "value")
-    #             }
-    #           }
+              dynamic "headers" {
+                for_each = lookup(backend.value, "headers",[])
+                content {
+                  name  = lookup(backend.value, "name")
+                  value = lookup(backend.value, "value")
+                }
+              }
 
-    #           dynamic "routing_backends" {
-    #             for_each = lookup(backend.value, "routing_backends") == null ? [] : ["routing_backends"]
-    #             content {
-    #               dynamic "backend" {
-    #                 for_each = lookup(routing_backends.value, "backend") == null ? [] : ["backend"]
-    #                 content {
-    #                   type                    = lookup(backend.value, "type")
-    #                   body                    = lookup(backend.value, "body")
-    #                   is_ssl_verify_disabled  = lookup(backend.value, "is_ssl_verify_disabled")
-    #                   function_id             = lookup(backend.value, "function_id")
-    #                   read_timeout_in_seconds = lookup(backend.value, "read_timeout_in_seconds")
-    #                   status                  = lookup(backend.value, "status")
-    #                   url                     = lookup(backend.value, "url")
-    #                 }
-    #               }
-    #               dynamic "key" {
-    #                 for_each = lookup(routing_backends.value, "key") == null ? [] : ["key"]
-    #                 content {
-    #                   name       = lookup(key.value, "name")
-    #                   type       = lookup(key.value, "type")
-    #                   expression = lookup(key.value, "expression")
-    #                   is_default = lookup(key.value, "is_default")
-    #                 }
-    #               }
-    #             }
-    #           }
+              dynamic "routing_backends" {
+                for_each = lookup(backend.value, "routing_backends", [])
+                content {
+                  dynamic "backend" {
+                    for_each = lookup(routing_backends.value, "backend", [])
+                    content {
+                      type                    = lookup(backend.value, "type")
+                      body                    = lookup(backend.value, "body")
+                      is_ssl_verify_disabled  = lookup(backend.value, "is_ssl_verify_disabled")
+                      function_id             = lookup(backend.value, "function_id")
+                      read_timeout_in_seconds = lookup(backend.value, "read_timeout_in_seconds")
+                      status                  = lookup(backend.value, "status")
+                      url                     = lookup(backend.value, "url")
+                    }
+                  }
+                  dynamic "key" {
+                    for_each = lookup(routing_backends.value, "key", [])
+                    content {
+                      name       = lookup(key.value, "name")
+                      type       = lookup(key.value, "type")
+                      expression = lookup(key.value, "expression")
+                      is_default = lookup(key.value, "is_default")
+                    }
+                  }
+                }
+              }
 
-    #           dynamic "selection_source" {
-    #             for_each = lookup(backend.value, "selection_source") == null ? [] : ["selection_source"]
-    #             content {
-    #               selector = lookup(selection_source.value, "selector")
-    #               type     = lookup(selection_source.value, "type")
-    #             }
-    #           }
-    #         }
-    #       }
-    #       dynamic "logging_policies" {
-    #         for_each = lookup(routes.value, "logging_policies") == null ? [] : ["logging_policies"]
-    #         content {
-    #           dynamic "access_log" {
-    #             for_each = lookup(logging_policies.value, "access_log") == null ? [] : ["access_log"]
-    #             content {
-    #               is_enabled = lookup(access_log.value, "is_enabled")
-    #             }
-    #           }
-    #           dynamic "execution_log" {
-    #             for_each = lookup(logging_policies.value, "execution_log") == null ? [] : ["execution_log"]
-    #             content {
-    #               is_enabled = lookup(execution_log.value, "is_enabled")
-    #               log_level  = lookup(execution_log.value, "log_level")
-    #             }
-    #           }
-    #         }
-    #       }
-    #       dynamic "request_policies" {
-    #         for_each = lookup(routes.value, "dynamic") == null ? [] : ["dynamic"]
-    #         content {
-    #           dynamic "authorization" {
-    #             for_each = lookup(request_policies.value, "authorization") == null ? [] : ["authorization"]
-    #             content {
-    #               allowed_scope = lookup(authorization.value, "allowed_scope")
-    #               type          = lookup(authorization.value, "type")
-    #             }
-    #           }
-    #           dynamic "body_validation" {
-    #             for_each = lookup(request_policies.value, "body_validation") == null ? [] : ["body_validation"]
-    #             content {
-    #               dynamic "content" {
-    #                 for_each = lookup(body_validation.value, "content") == null ? [] : ["content"]
-    #                 content {
-    #                   media_type      = lookup(content.value, "media_type")
-    #                   validation_type = lookup(content.value, "validation_type")
-    #                 }
-    #               }
-    #               required        = lookup(body_validation.value, "required")
-    #               validation_mode = lookup(body_validation.value, "validation_mode")
-    #             }
-    #           }
-    #           dynamic "cors" {
-    #             for_each = lookup(request_policies.value, "cors") == null ? [] : ["cors"]
-    #             content {
-    #               allowed_origins              = lookup(cors.value, "allowed_origins")
-    #               allowed_headers              = lookup(cors.value, "allowed_headers")
-    #               allowed_methods              = lookup(cors.value, "allowed_methods")
-    #               exposed_headers              = lookup(cors.value, "exposed_headers")
-    #               is_allow_credentials_enabled = lookup(cors.value, "is_allow_credentials_enabled")
-    #               max_age_in_seconds           = lookup(cors.value, "max_age_in_seconds")
-    #             }
-    #           }
-    #           dynamic "header_transformations" {
-    #             for_each = lookup(request_policies.value, "header_transformations") == null ? [] : ["header_transformations"]
-    #             content {
-    #               dynamic "filter_headers" {
-    #                 for_each = lookup(header_transformations.value, "filter_headers") == null ? [] : ["filter_headers"]
-    #                 content {
-    #                   type = lookup(filter_headers.value, "type")
-    #                   dynamic "items" {
-    #                     for_each = lookup(filter_headers.value, "items") == null ? [] : ["items"]
-    #                     content {
-    #                       name = lookup(items.value, "name")
-    #                     }
-    #                   }
-    #                 }
-    #               }
-    #               dynamic "rename_headers" {
-    #                 for_each = lookup(header_transformations.value, "rename_headers") == null ? [] : ["rename_headers"]
-    #                 content {
-    #                   dynamic "items" {
-    #                     for_each = lookup(rename_headers.value, "items") == null ? [] : ["items"]
-    #                     content {
-    #                       from = lookup(items.value, "from")
-    #                       to   = lookup(items.value, "to")
-    #                     }
-    #                   }
-    #                 }
-    #               }
-    #               dynamic "set_headers" {
-    #                 for_each = lookup(header_transformations.value, "set_headers") == null ? [] : ["set_headers"]
-    #                 content {
-    #                   dynamic "items" {
-    #                     for_each = lookup(set_headers.value, "items") == null ? [] : ["items"]
-    #                     content {
-    #                       name      = lookup(set_headers.value, "name")
-    #                       values    = lookup(set_headers.value, "values")
-    #                       if_exists = lookup(set_headers.value, "if_exists")
-    #                     }
-    #                   }
-    #                 }
-    #               }
-    #             }
-    #           }
-    #           dynamic "header_validations" {
-    #             for_each = lookup(request_policies.value, "header_validations") == null ? [] : ["header_validations"]
-    #             content {
-    #               dynamic "headers" {
-    #                 for_each = lookup(request_policies.value, "headers") == null ? [] : ["headers"]
-    #                 content {
-    #                   name     = lookup(headers.value, "name")
-    #                   required = lookup(headers.value, "required")
-    #                 }
-    #               }
-    #               validation_mode = lookup(header_validations.value, "validation_mode")
-    #             }
-    #           }
-    #           dynamic "query_parameter_transformations" {
-    #             for_each = lookup(request_policies.value, "query_parameter_transformations") == null ? [] : ["query_parameter_transformations"]
-    #             content {
-    #               dynamic "filter_query_parameters" {
-    #                 for_each = lookup(query_parameter_transformations.value, "filter_query_parameters") == null ? [] : ["filter_query_parameters"]
-    #                 content {
-    #                   type = lookup(filter_query_parameters.value, "type")
-    #                   dynamic "items" {
-    #                     for_each = lookup(filter_query_parameters.value, "items") == null ? [] : ["filter_query_parameters"]
-    #                     content {
-    #                       name = lookup(items.value, "name")
-    #                     }
-    #                   }
-    #                 }
-    #               }
-    #               dynamic "rename_query_parameters" {
-    #                 for_each = lookup(query_parameter_transformations.value, "rename_query_parameters") == null ? [] : ["rename_query_parameters"]
-    #                 content {
-    #                   dynamic "items" {
-    #                     for_each = lookup(rename_query_parameters.value, "items")
-    #                     content {
-    #                       from = lookup(items.value, "from")
-    #                       to   = lookup(items.value, "to")
-    #                     }
-    #                   }
-    #                 }
-    #               }
-    #               dynamic "set_query_parameters" {
-    #                 for_each = lookup(query_parameter_transformations.value, "set_query_parameters") == null ? [] : ["set_query_parameters"]
-    #                 content {
-    #                   dynamic "items" {
-    #                     for_each = lookup(set_query_parameters.value, "items") == null ? [] : ["items"]
-    #                     content {
-    #                       name      = lookup(items.value, "name")
-    #                       values    = lookup(items.value, "values")
-    #                       if_exists = lookup(items.value, "if_exists")
-    #                     }
-    #                   }
-    #                 }
-    #               }
-    #             }
-    #           }
-    #           dynamic "query_parameter_validations" {
-    #             for_each = lookup(request_policies.value, "query_parameter_validations") == null ? [] : ["query_parameter_validations"]
-    #             content {
-    #               validation_mode = lookup(query_parameter_validations.value, "validation_mode")
-    #               dynamic "parameters" {
-    #                 for_each = lookup(query_parameter_validations.value, "parameters") == null ? [] : ["parameters"]
-    #                 content {
-    #                   name     = lookup(parameters.value, "name")
-    #                   required = lookup(parameters.value, "required")
-    #                 }
-    #               }
-    #             }
-    #           }
-    #           dynamic "response_cache_lookup" {
-    #             for_each = lookup(request_policies.value, "response_cache_lookup") == null ? [] : ["response_cache_lookup"]
-    #             content {
-    #               type                       = lookup(response_cache_lookup.value, "type")
-    #               cache_key_additions        = lookup(response_cache_lookup.value, "cache_key_additions")
-    #               is_enabled                 = lookup(response_cache_lookup.value, "is_enabled")
-    #               is_private_caching_enabled = lookup(response_cache_lookup.value, "is_private_caching_enabled")
-    #             }
-    #           }
-    #         }
-    #       }
-    #       dynamic "response_policies" {
-    #         for_each = lookup(routes.value, "response_policies") == null ? [] : ["response_policies"]
-    #         content {
-    #           dynamic "header_transformations" {
-    #             for_each = lookup(response_policies.value, "header_transformations") == null ? [] : ["header_transformations"]
-    #             content {
-    #               dynamic "filter_headers" {
-    #                 for_each = lookup(header_transformations.value, "filter_headers") == null ? [] : ["filter_headers"]
-    #                 content {
-    #                   type = lookup(filter_headers.value, "type")
-    #                   dynamic "items" {
-    #                     for_each = lookup(filter_headers.value, "items") == null ? [] : ["items"]
-    #                     content {
-    #                       name = lookup(items.value, "name")
-    #                     }
-    #                   }
-    #                 }
-    #               }
-    #               dynamic "rename_headers" {
-    #                 for_each = lookup(header_transformations.value, "rename_headers") == null ? [] : ["rename_headers"]
-    #                 content {
-    #                   dynamic "items" {
-    #                     for_each = lookup(rename_headers.value, "items")
-    #                     content {
-    #                       from = lookup(rename_headers.value, "from")
-    #                       to   = lookup(rename_headers.value, "to")
-    #                     }
-    #                   }
-    #                 }
-    #               }
-    #               dynamic "set_headers" {
-    #                 for_each = lookup(header_transformations.value, "set_headers") == null ? [] : ["set_headers"]
-    #                 content {
-    #                   dynamic "items" {
-    #                     for_each = lookup(set_headers.value, "items") == null ? [] : ["items"]
-    #                     content {
-    #                       name      = lookup(items.value, "name")
-    #                       values    = lookup(items.value, "values")
-    #                       if_exists = lookup(items.value, "if_exists")
-    #                     }
-    #                   }
-    #                 }
-    #               }
-    #             }
-    #           }
-    #           dynamic "response_cache_store" {
-    #             for_each = lookup(response_policies.value, "response_cache_store") == null ? [] : ["response_cache_store"]
-    #             content {
-    #               time_to_live_in_seconds = lookup(response_cache_store.value, "time_to_live_in_seconds")
-    #               type                    = lookup(response_cache_store.value, "type")
-    #             }
-    #           }
-    #         }
-    #       }
-    #     }
-    #   }
+              dynamic "selection_source" {
+                for_each = lookup(backend.value, "selection_source", [])
+                content {
+                  selector = lookup(selection_source.value, "selector")
+                  type     = lookup(selection_source.value, "type")
+                }
+              }
+            }
+          }
+          dynamic "logging_policies" {
+            for_each = lookup(routes.value, "logging_policies", [])
+            content {
+              dynamic "access_log" {
+                for_each = lookup(logging_policies.value, "access_log", [])
+                content {
+                  is_enabled = lookup(access_log.value, "is_enabled")
+                }
+              }
+              dynamic "execution_log" {
+                for_each = lookup(logging_policies.value, "execution_log", [])
+                content {
+                  is_enabled = lookup(execution_log.value, "is_enabled")
+                  log_level  = lookup(execution_log.value, "log_level")
+                }
+              }
+            }
+          }
+          dynamic "request_policies" {
+            for_each = lookup(routes.value, "dynamic", [])
+            content {
+              dynamic "authorization" {
+                for_each = lookup(request_policies.value, "authorization", [])
+                content {
+                  allowed_scope = lookup(authorization.value, "allowed_scope")
+                  type          = lookup(authorization.value, "type")
+                }
+              }
+              dynamic "body_validation" {
+                for_each = lookup(request_policies.value, "body_validation", [])
+                content {
+                  dynamic "content" {
+                    for_each = lookup(body_validation.value, "content", [])
+                    content {
+                      media_type      = lookup(content.value, "media_type")
+                      validation_type = lookup(content.value, "validation_type")
+                    }
+                  }
+                  required        = lookup(body_validation.value, "required")
+                  validation_mode = lookup(body_validation.value, "validation_mode")
+                }
+              }
+              dynamic "cors" {
+                for_each = lookup(request_policies.value, "cors", [])
+                content {
+                  allowed_origins              = lookup(cors.value, "allowed_origins")
+                  allowed_headers              = lookup(cors.value, "allowed_headers")
+                  allowed_methods              = lookup(cors.value, "allowed_methods")
+                  exposed_headers              = lookup(cors.value, "exposed_headers")
+                  is_allow_credentials_enabled = lookup(cors.value, "is_allow_credentials_enabled")
+                  max_age_in_seconds           = lookup(cors.value, "max_age_in_seconds")
+                }
+              }
+              dynamic "header_transformations" {
+                for_each = lookup(request_policies.value, "header_transformations", [])
+                content {
+                  dynamic "filter_headers" {
+                    for_each = lookup(header_transformations.value, "filter_headers", [])
+                    content {
+                      type = lookup(filter_headers.value, "type")
+                      dynamic "items" {
+                        for_each = lookup(filter_headers.value, "items", [])
+                        content {
+                          name = lookup(items.value, "name")
+                        }
+                      }
+                    }
+                  }
+                  dynamic "rename_headers" {
+                    for_each = lookup(header_transformations.value, "rename_headers", [])
+                    content {
+                      dynamic "items" {
+                        for_each = lookup(rename_headers.value, "items", [])
+                        content {
+                          from = lookup(items.value, "from")
+                          to   = lookup(items.value, "to")
+                        }
+                      }
+                    }
+                  }
+                  dynamic "set_headers" {
+                    for_each = lookup(header_transformations.value, "set_headers", [])
+                    content {
+                      dynamic "items" {
+                        for_each = lookup(set_headers.value, "items", [])
+                        content {
+                          name      = lookup(set_headers.value, "name")
+                          values    = lookup(set_headers.value, "values")
+                          if_exists = lookup(set_headers.value, "if_exists")
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              dynamic "header_validations" {
+                for_each = lookup(request_policies.value, "header_validations", [])
+                content {
+                  dynamic "headers" {
+                    for_each = lookup(request_policies.value, "headers", [])
+                    content {
+                      name     = lookup(headers.value, "name")
+                      required = lookup(headers.value, "required")
+                    }
+                  }
+                  validation_mode = lookup(header_validations.value, "validation_mode")
+                }
+              }
+              dynamic "query_parameter_transformations" {
+                for_each = lookup(request_policies.value, "query_parameter_transformations", [])
+                content {
+                  dynamic "filter_query_parameters" {
+                    for_each = lookup(query_parameter_transformations.value, "filter_query_parameters", [])
+                    content {
+                      type = lookup(filter_query_parameters.value, "type")
+                      dynamic "items" {
+                        for_each = lookup(filter_query_parameters.value, "items", [])
+                        content {
+                          name = lookup(items.value, "name")
+                        }
+                      }
+                    }
+                  }
+                  dynamic "rename_query_parameters" {
+                    for_each = lookup(query_parameter_transformations.value, "rename_query_parameters", [])
+                    content {
+                      dynamic "items" {
+                        for_each = lookup(rename_query_parameters.value, "items")
+                        content {
+                          from = lookup(items.value, "from")
+                          to   = lookup(items.value, "to")
+                        }
+                      }
+                    }
+                  }
+                  dynamic "set_query_parameters" {
+                    for_each = lookup(query_parameter_transformations.value, "set_query_parameters", [])
+                    content {
+                      dynamic "items" {
+                        for_each = lookup(set_query_parameters.value, "items", [])
+                        content {
+                          name      = lookup(items.value, "name")
+                          values    = lookup(items.value, "values")
+                          if_exists = lookup(items.value, "if_exists")
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              dynamic "query_parameter_validations" {
+                for_each = lookup(request_policies.value, "query_parameter_validations", [])
+                content {
+                  validation_mode = lookup(query_parameter_validations.value, "validation_mode")
+                  dynamic "parameters" {
+                    for_each = lookup(query_parameter_validations.value, "parameters", [])
+                    content {
+                      name     = lookup(parameters.value, "name")
+                      required = lookup(parameters.value, "required")
+                    }
+                  }
+                }
+              }
+              dynamic "response_cache_lookup" {
+                for_each = lookup(request_policies.value, "response_cache_lookup", [])
+                content {
+                  type                       = lookup(response_cache_lookup.value, "type")
+                  cache_key_additions        = lookup(response_cache_lookup.value, "cache_key_additions")
+                  is_enabled                 = lookup(response_cache_lookup.value, "is_enabled")
+                  is_private_caching_enabled = lookup(response_cache_lookup.value, "is_private_caching_enabled")
+                }
+              }
+            }
+          }
+          dynamic "response_policies" {
+            for_each = lookup(routes.value, "response_policies", [])
+            content {
+              dynamic "header_transformations" {
+                for_each = lookup(response_policies.value, "header_transformations", [])
+                content {
+                  dynamic "filter_headers" {
+                    for_each = lookup(header_transformations.value, "filter_headers", [])
+                    content {
+                      type = lookup(filter_headers.value, "type")
+                      dynamic "items" {
+                        for_each = lookup(filter_headers.value, "items", [])
+                        content {
+                          name = lookup(items.value, "name")
+                        }
+                      }
+                    }
+                  }
+                  dynamic "rename_headers" {
+                    for_each = lookup(header_transformations.value, "rename_headers", [])
+                    content {
+                      dynamic "items" {
+                        for_each = lookup(rename_headers.value, "items")
+                        content {
+                          from = lookup(rename_headers.value, "from")
+                          to   = lookup(rename_headers.value, "to")
+                        }
+                      }
+                    }
+                  }
+                  dynamic "set_headers" {
+                    for_each = lookup(header_transformations.value, "set_headers", [])
+                    content {
+                      dynamic "items" {
+                        for_each = lookup(set_headers.value, "items", [])
+                        content {
+                          name      = lookup(items.value, "name")
+                          values    = lookup(items.value, "values")
+                          if_exists = lookup(items.value, "if_exists")
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              dynamic "response_cache_store" {
+                for_each = lookup(response_policies.value, "response_cache_store", [])
+                content {
+                  time_to_live_in_seconds = lookup(response_cache_store.value, "time_to_live_in_seconds")
+                  type                    = lookup(response_cache_store.value, "type")
+                }
+              }
+            }
+          }
+        }
+      }
     routes {
       #Required
       backend {

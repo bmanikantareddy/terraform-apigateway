@@ -111,7 +111,7 @@ deployment = [
             methods = ["GET"]
             backend = [
               {
-                type                       = "HTTP"
+                type                       = "HTTP_BACKEND"
                 url                        = "http://129.159.105.110/users"
                 is_ssl_verify_disabled     = false
                 headers = []
@@ -127,7 +127,7 @@ deployment = [
                 execution_log = [
                   {
                     is_enabled = true
-                    log_level  = "DEBUG"
+                    log_level  = "INFO"
                   }
                 ]
               }
