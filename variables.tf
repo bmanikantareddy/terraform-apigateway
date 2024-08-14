@@ -16,41 +16,25 @@ variable "freeform_tags" {
   description = "Freeform tags"
 }
 
+variable "gateway_id" {
+  description = "The OCI API gateway OCID"
+  type        = string
+  default = ""
+}
+
 variable "gateway" {
-  type = list(object({
-    id                         = number
+  type = object({
     endpoint_type              = string
     subnet_id                  = string
-    certificate_id             = optional(number)
-    defined_tags               = optional(map(string))
     display_name               = optional(string)
-    freeform_tags              = optional(map(string))
-    network_security_group_ids = optional(list(string))
-    ca_bundles = optional(list(object({
-      type                     = string
-      ca_bundle_id             = optional(string)
-      certificate_authority_id = optional(string)
-    })), [])
-    response_cache_details = optional(list(object({
-      type                                 = string
-      authentication_secret_id             = optional(string)
-      authentication_secret_version_number = optional(string)
-      connect_timeout_in_ms                = optional(number)
-      is_ssl_enabled                       = optional(bool)
-      is_ssl_verify_disabled               = optional(number)
-      read_timeout_in_ms                   = optional(number)
-      send_timeout_in_ms                   = optional(number)
-      servers = optional(list(object({
-        host = optional(string)
-        port = optional(number)
-      })), [])
-    })), [])
-  }))
-  default = []
+  })
+  
+  default = null
   description = <<EOF
   This resource provides the Certificate resource in Oracle Cloud Infrastructure API Gateway service.
   EOF
 }
+
 
 variable "deployment" {
   type = list(object({
