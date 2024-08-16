@@ -24,19 +24,19 @@
 resource "oci_apigateway_gateway" "this" {
   count          = length(var.gateway_id) > 0 ? 0 : 1
   compartment_id = var.compartment_id
-  endpoint_type  = lookup(var.gateway[count.index], "endpoint_type")
-  subnet_id      = lookup(var.gateway[count.index], "subnet_id")
+  endpoint_type  = var.gateway.endpoint_type
+  subnet_id      =  var.gateway.subnet_id
     #   certificate_id = try(
     #     data.oci_apigateway_certificate.this.certificate_id,
     #     element(oci_apigateway_certificate.this.*.id, lookup(var.gateway[count.index], "certificate_id"))
     #   )
-  display_name = lookup(var.gateway[count.index], "display_name")
+  display_name = var.gateway.display_name
 }
 
 resource "oci_apigateway_deployment" "this" {
   count          = length(var.deployment) == "0" ? "0" : length(var.gateway)
   compartment_id = var.compartment_id
-  gateway_id = oci_apigateway_gateway.this[0].id
+  gateway_id = length(var.gateway_id) > 0 ? data.oci_apigateway_gateway.this[0].id : oci_apigateway_gateway.this[0].id  
   path_prefix  = lookup(var.deployment[count.index], "path_prefix")
   display_name = lookup(var.deployment[count.index], "display_name")
   defined_tags = merge(
@@ -799,75 +799,75 @@ resource "oci_apigateway_deployment" "this" {
   }
 }
 
-resource "oci_apigateway_subscriber" "this" {
-  count          = length(var.subscriber) == "0" ? "0" : length(var.usage_plans)
-  compartment_id = var.compartment_id
-  #usage_plans    = lookup(var.subscriber[count.index], "usage_plans")
-  usage_plans    = oci_apigateway_usage_plan.this[*].id
-  defined_tags = merge(
-    var.defined_tags,
-    lookup(var.subscriber[count.index], "defined_tags")
-  )
-  display_name = lookup(var.subscriber[count.index], "display_name")
-  freeform_tags = merge(
-    var.freeform_tags,
-    lookup(var.subscriber[count.index], "freeform_tags")
-  )
+# resource "oci_apigateway_subscriber" "this" {
+#   count          = length(var.subscriber) == "0" ? "0" : length(var.usage_plans)
+#   compartment_id = var.compartment_id
+#   #usage_plans    = lookup(var.subscriber[count.index], "usage_plans")
+#   usage_plans    = oci_apigateway_usage_plan.this[*].id
+#   defined_tags = merge(
+#     var.defined_tags,
+#     lookup(var.subscriber[count.index], "defined_tags")
+#   )
+#   display_name = lookup(var.subscriber[count.index], "display_name")
+#   freeform_tags = merge(
+#     var.freeform_tags,
+#     lookup(var.subscriber[count.index], "freeform_tags")
+#   )
 
-  dynamic "clients" {
-    for_each = lookup(var.subscriber[count.index], "clients")
-    content {
-      name  = lookup(clients.value, "name")
-      token = lookup(clients.value, "token")
+#   dynamic "clients" {
+#     for_each = lookup(var.subscriber[count.index], "clients")
+#     content {
+#       name  = lookup(clients.value, "name")
+#       token = lookup(clients.value, "token")
 
-    }
-  }
-}
+#     }
+#   }
+# }
 
-resource "oci_apigateway_usage_plan" "this" {
-  count          = length(var.usage_plans)
-  compartment_id = var.compartment_id
-  defined_tags = merge(
-    var.defined_tags,
-    lookup(var.usage_plans[count.index], "defined_tags")
-  )
-  display_name = lookup(var.usage_plans[count.index], "display_name")
-  freeform_tags = merge(
-    var.freeform_tags,
-    lookup(var.usage_plans[count.index], "freeform_tags")
-  )
+# resource "oci_apigateway_usage_plan" "this" {
+#   count          = length(var.usage_plans)
+#   compartment_id = var.compartment_id
+#   defined_tags = merge(
+#     var.defined_tags,
+#     lookup(var.usage_plans[count.index], "defined_tags")
+#   )
+#   display_name = lookup(var.usage_plans[count.index], "display_name")
+#   freeform_tags = merge(
+#     var.freeform_tags,
+#     lookup(var.usage_plans[count.index], "freeform_tags")
+#   )
 
-  dynamic "entitlements" {
-    for_each = lookup(var.usage_plans[count.index], "entitlements")
-    content {
-      name        = lookup(entitlements.value, "name")
-      description = lookup(entitlements.value, "description")
+#   dynamic "entitlements" {
+#     for_each = lookup(var.usage_plans[count.index], "entitlements")
+#     content {
+#       name        = lookup(entitlements.value, "name")
+#       description = lookup(entitlements.value, "description")
 
-      dynamic "quota" {
-        for_each = lookup(entitlements.value, "quota", [])
-        content {
-          operation_on_breach = lookup(quota.value, "operation_on_breach")
-          reset_policy        = lookup(quota.value, "reset_policy")
-          unit                = lookup(quota.value, "unit")
-          value               = lookup(quota.value, "value")
-        }
-      }
+#       dynamic "quota" {
+#         for_each = lookup(entitlements.value, "quota", [])
+#         content {
+#           operation_on_breach = lookup(quota.value, "operation_on_breach")
+#           reset_policy        = lookup(quota.value, "reset_policy")
+#           unit                = lookup(quota.value, "unit")
+#           value               = lookup(quota.value, "value")
+#         }
+#       }
 
-      dynamic "rate_limit" {
-        for_each = lookup(entitlements.value, "rate_limit", [])
-        content {
-          unit  = lookup(rate_limit.value, "unit")
-          value = lookup(rate_limit.value, "value")
-        }
-      }
+#       dynamic "rate_limit" {
+#         for_each = lookup(entitlements.value, "rate_limit", [])
+#         content {
+#           unit  = lookup(rate_limit.value, "unit")
+#           value = lookup(rate_limit.value, "value")
+#         }
+#       }
 
-      dynamic "targets" {
-        for_each = lookup(entitlements.value, "targets", [])
-        content {
-          deployment_id = try(element(oci_apigateway_deployment.this.*.id, lookup(targets.value, "deployment_id"))
-          )
-        }
-      }
-    }
-  }
-}
+#       dynamic "targets" {
+#         for_each = lookup(entitlements.value, "targets", [])
+#         content {
+#           deployment_id = try(element(oci_apigateway_deployment.this.*.id, lookup(targets.value, "deployment_id"))
+#           )
+#         }
+#       }
+#     }
+#   }
+# }
