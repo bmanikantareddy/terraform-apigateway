@@ -4,7 +4,7 @@ compartment_id = "ocid1.compartment.oc1..aaaaaaaal2o4vaqyt3kiwvezviozntgck5pp33e
 gateway = {
     endpoint_type             = "PUBLIC"
     subnet_id                 = "ocid1.subnet.oc1.iad.aaaaaaaaek43v3qrcr2aycpdbav5ufe3zq32trulojazand42qdzi4iejd7q"
-    display_name              = "oal_api_gateway"
+    display_name              = "simple_gateway"
   }
 
 # deployment Object containing details to create OCI API gateway deployment
