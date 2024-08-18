@@ -871,3 +871,12 @@ resource "oci_apigateway_gateway" "this" {
 #     }
 #   }
 # }
+
+
+output "api_gateway_output" {
+  value = {
+    tenancy_id = var.tenancy_id
+    gateway_id = length(var.gateway_id) > 0 ? data.oci_apigateway_gateway.this[0].id : oci_apigateway_gateway.this[0].id 
+  }
+  
+}
