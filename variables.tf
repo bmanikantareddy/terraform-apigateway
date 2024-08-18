@@ -481,49 +481,57 @@ variable "deployment" {
 }
 
 variable "subscriber" {
-  type = list(object({
-    id            = number
-    usage_plans   = list(string)
-    defined_tags  = optional(map(string))
+  type = object({
     display_name  = optional(string)
-    freeform_tags = optional(map(string))
     clients = list(object({
       name  = string
-      token = string
+      # token = string
     }))
-  }))
-  default = []
+  })
+  default = {
+    display_name = null
+    clients = [] 
+  }
   description = <<EOF
 This resource provides the Subscriber resource in Oracle Cloud Infrastructure API Gateway service.
 EOF
 }
 
-variable "usage_plans" {
-  type = list(object({
-    id            = number
-    defined_tags  = optional(map(string))
+variable "usage_plan" {
+  type = object({
     display_name  = optional(string)
-    freeform_tags = optional(map(string))
-    entitlements = list(object({
+    entitlement = object({
       name        = string
       description = optional(string)
-      quota = optional(list(object({
+      quota = optional(object({
         operation_on_breach = string
         reset_policy        = string
         unit                = string
         value               = number
-      })), [])
-      rate_limit = optional(list(object({
+      }))
+      rate_limit = optional(object({
         unit  = string
         value = number
-      })), [])
-      targets = optional(list(object({
-        deployment_id = number
-      })), [])
-    }))
-  }))
-  default = []
+      }))
+    })
+  })
+  default = {
+    entitlement = {
+      name        = ""
+      description = null
+      quota = {
+        operation_on_breach = ""
+        reset_policy        = ""
+        unit                = ""
+        value               = 0
+      }
+      rate_limit = {
+        unit  = ""
+        value = 0
+      }
+    }
+  }
   description = <<EOF
-This resource provides the Usage Plan resource in Oracle Cloud Infrastructure API Gateway service.
-EOF
+  This resource provides the Usage Plan resource in Oracle Cloud Infrastructure API Gateway service.
+  EOF
 }

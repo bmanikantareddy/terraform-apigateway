@@ -190,111 +190,37 @@ gateway_id="ocid1.apigateway.oc1.iad.amaaaaaan3n6yvyauxl4bzhisgldofdfi4va6n4ryfl
 # ]
 
 ## 
-subscriber = [
-  {
-    id = 1
-    usage_plans = ["BasicPlan", "PremiumPlan"]
-    defined_tags = {}
+subscriber = {
     display_name = "Subscriber1"
-    freeform_tags = {
-      Owner = "TeamA"
-    }
     clients = [
       {
         name  = "ClientA"
-        token = "abc123"
+        # token = "abc123"
       },
       {
         name  = "ClientB"
-        token = "def456"
-      }
-    ]
-  },
-  {
-    id = 2
-    usage_plans = ["BasicPlan"]
-    defined_tags = {}
-    display_name = "Subscriber2"
-    freeform_tags = {
-      Owner = "TeamB"
-    }
-    clients = [
-      {
-        name  = "ClientC"
-        token = "ghi789"
+        # token = "def456"
       }
     ]
   }
-]
 
-usage_plans = [
-  {
-    id = 101
-    defined_tags = {}
+usage_plan =   {
     display_name = "BasicPlan"
-    freeform_tags = {
-      Owner = "oal team"
-    }
-    entitlements = [
-      {
+    entitlement = {
         name        = "Entitlement1"
         description = "Basic plan entitlement"
-        quota = [
-          {
+        quota = {
             operation_on_breach = "REJECT"
             reset_policy        = "CALENDAR"
             unit                = "HOUR"
             value               = 1000
           }
-        ]
-        rate_limit = [
-          {
+        rate_limit = {
             unit  = "SECOND"
             value = 10
           }
-        ]
-        targets = [
-          {
-            deployment_id = 201
-          }
-        ]
       }
-    ]
-  },
-  {
-    id = 102
-    defined_tags = {}
-    display_name = "PremiumPlan"
-    freeform_tags = {
-      Owner = "OAL Team"
-    }
-    entitlements = [
-      {
-        name        = "Entitlement2"
-        description = "Premium plan entitlement"
-        quota = [
-          {
-            operation_on_breach = "ALLOW"
-            reset_policy        = "CALENDAR"
-            unit                = "HOUR"
-            value               = 5000
-          }
-        ]
-        rate_limit = [
-          {
-            unit  = "SECOND"
-            value = 50
-          }
-        ]
-        targets = [
-          {
-            deployment_id = 202
-          }
-        ]
-      }
-    ]
   }
-]
 
 
 ##############

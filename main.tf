@@ -492,10 +492,10 @@ resource "oci_apigateway_gateway" "this" {
 #         #       rate_key                    = lookup(rate_limiting.value, "rate_key")
 #         #     }
 #         #   }
-#           dynamic "usage_plans" {
-#             for_each = lookup(request_policies.value, "usage_plans", [])
+#           dynamic "usage_plan" {
+#             for_each = lookup(request_policies.value, "usage_plan", [])
 #             content {
-#               token_locations = lookup(usage_plans.value, "token_locations")
+#               token_locations = lookup(usage_plan.value, "token_locations")
 #             }
 #           }
 #         }
@@ -799,84 +799,60 @@ resource "oci_apigateway_gateway" "this" {
 #   }
 # }
 
-# resource "oci_apigateway_subscriber" "this" {
-#   count          = length(var.subscriber) == "0" ? "0" : length(var.usage_plans)
-#   compartment_id = var.compartment_id
-#   #usage_plans    = lookup(var.subscriber[count.index], "usage_plans")
-#   usage_plans    = oci_apigateway_usage_plan.this[*].id
-#   defined_tags = merge(
-#     var.defined_tags,
-#     lookup(var.subscriber[count.index], "defined_tags")
-#   )
-#   display_name = lookup(var.subscriber[count.index], "display_name")
-#   freeform_tags = merge(
-#     var.freeform_tags,
-#     lookup(var.subscriber[count.index], "freeform_tags")
-#   )
+# for generating the token randonmly for the subscribers client
+resource "random_string" "client_token" {
+  count  = length(var.subscriber.clients)
+  special = false
+  upper   = true
+  lower   = true
+  numeric  = true
+  length  = 8  # Specify the length of the token here
+}
 
-#   dynamic "clients" {
-#     for_each = lookup(var.subscriber[count.index], "clients")
-#     content {
-#       name  = lookup(clients.value, "name")
-#       token = lookup(clients.value, "token")
+resource "oci_apigateway_subscriber" "this" {
+  count          = length(var.subscriber) > 0 ? 1 : 0
+  compartment_id = var.compartment_id
+  usage_plans    = [oci_apigateway_usage_plan.this[0].id]
 
-#     }
-#   }
-# }
+  display_name = var.subscriber.display_name
+  dynamic "clients" {
+    for_each = var.subscriber.clients
+    content {
+      name  = lookup(clients.value, "name")
+      token = uuid() #random_string.client_token[for_each.key].result
+    }
+  }
+}
 
-# resource "oci_apigateway_usage_plan" "this" {
-#   count          = length(var.usage_plans)
-#   compartment_id = var.compartment_id
-#   defined_tags = merge(
-#     var.defined_tags,
-#     lookup(var.usage_plans[count.index], "defined_tags")
-#   )
-#   display_name = lookup(var.usage_plans[count.index], "display_name")
-#   freeform_tags = merge(
-#     var.freeform_tags,
-#     lookup(var.usage_plans[count.index], "freeform_tags")
-#   )
+resource "oci_apigateway_usage_plan" "this" {
+  count          = length(var.usage_plan) > 0 ? 1 : 0
+  compartment_id = var.compartment_id
+  display_name = var.usage_plan.display_name
 
-#   dynamic "entitlements" {
-#     for_each = lookup(var.usage_plans[count.index], "entitlements")
-#     content {
-#       name        = lookup(entitlements.value, "name")
-#       description = lookup(entitlements.value, "description")
-
-#       dynamic "quota" {
-#         for_each = lookup(entitlements.value, "quota", [])
-#         content {
-#           operation_on_breach = lookup(quota.value, "operation_on_breach")
-#           reset_policy        = lookup(quota.value, "reset_policy")
-#           unit                = lookup(quota.value, "unit")
-#           value               = lookup(quota.value, "value")
-#         }
-#       }
-
-#       dynamic "rate_limit" {
-#         for_each = lookup(entitlements.value, "rate_limit", [])
-#         content {
-#           unit  = lookup(rate_limit.value, "unit")
-#           value = lookup(rate_limit.value, "value")
-#         }
-#       }
-
-#       dynamic "targets" {
-#         for_each = lookup(entitlements.value, "targets", [])
-#         content {
-#           deployment_id = try(element(oci_apigateway_deployment.this.*.id, lookup(targets.value, "deployment_id"))
-#           )
-#         }
-#       }
-#     }
-#   }
-# }
+  entitlements{
+    name = var.usage_plan.entitlement.name
+    description = var.usage_plan.entitlement.description
+    quota {
+      operation_on_breach = var.usage_plan.entitlement.quota.operation_on_breach
+      reset_policy = var.usage_plan.entitlement.quota.reset_policy
+      unit = var.usage_plan.entitlement.quota.unit
+      value = var.usage_plan.entitlement.quota.value
+    }
+    rate_limit {
+      unit = var.usage_plan.entitlement.rate_limit.unit
+      value = var.usage_plan.entitlement.rate_limit.value
+    }
+    targets {
+      deployment_id = "ocid1.apideployment.oc1.iad.amaaaaaan3n6yvyaoliqhad2sijnwpezo4llttarfk2nhwgcfzkmzifaazyq"
+    }
+  }
+}
 
 
 output "api_gateway_output" {
   value = {
     tenancy_id = var.tenancy_id
     gateway_id = length(var.gateway_id) > 0 ? data.oci_apigateway_gateway.this[0].id : oci_apigateway_gateway.this[0].id 
+    usage_plan = oci_apigateway_usage_plan.this[0].id
   }
-  
 }
