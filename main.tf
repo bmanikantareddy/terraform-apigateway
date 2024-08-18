@@ -809,20 +809,20 @@ resource "random_string" "client_token" {
   length  = 8  # Specify the length of the token here
 }
 
-resource "oci_apigateway_subscriber" "this" {
-  count          = length(var.subscriber) > 0 ? 1 : 0
-  compartment_id = var.compartment_id
-  usage_plans    = [oci_apigateway_usage_plan.this[0].id]
+# resource "oci_apigateway_subscriber" "this" {
+#   count          = length(var.subscriber) > 0 ? 1 : 0
+#   compartment_id = var.compartment_id
+#   usage_plans    = [oci_apigateway_usage_plan.this[0].id]
 
-  display_name = var.subscriber.display_name
-  dynamic "clients" {
-    for_each = var.subscriber.clients
-    content {
-      name  = lookup(clients.value, "name")
-      token = uuid() #random_string.client_token[for_each.key].result
-    }
-  }
-}
+#   display_name = var.subscriber.display_name
+#   dynamic "clients" {
+#     for_each = var.subscriber.clients
+#     content {
+#       name  = lookup(clients.value, "name")
+#       token = uuid() #random_string.client_token[for_each.key].result
+#     }
+#   }
+# }
 
 resource "oci_apigateway_usage_plan" "this" {
   count          = length(var.usage_plan) > 0 ? 1 : 0
@@ -849,10 +849,10 @@ resource "oci_apigateway_usage_plan" "this" {
 }
 
 
-output "api_gateway_output" {
-  value = {
-    tenancy_id = var.tenancy_id
-    gateway_id = length(var.gateway_id) > 0 ? data.oci_apigateway_gateway.this[0].id : oci_apigateway_gateway.this[0].id 
-    usage_plan = oci_apigateway_usage_plan.this[0].id
-  }
-}
+# output "api_gateway_output" {
+#   value = {
+#     tenancy_id = var.tenancy_id
+#     gateway_id = length(var.gateway_id) > 0 ? data.oci_apigateway_gateway.this[0].id : oci_apigateway_gateway.this[0].id 
+#     usage_plan = oci_apigateway_usage_plan.this[0].id
+#   }
+# }

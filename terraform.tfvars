@@ -1,10 +1,10 @@
 tenancy_id = "ocid1.tenancy.oc1..aaaaaaaaaq37gwcnkgq7wsgyydh3tbhg2xvtcmt56mxkmt35qvqaohb7vrhq"
-compartment_id = "ocid1.compartment.oc1..aaaaaaaal2o4vaqyt3kiwvezviozntgck5pp33eihmgdvofrxpl4fiiyztaq"
+compartment_id = "ocid1.compartment.oc1..aaaaaaaabl7czxnk2u4dwczohgcrkkpboxyjaenp7pln7cfjmclaaf7dwr2a"
 
 # Gate object containing details to create OCI API gate way
 gateway = {
     endpoint_type             = "PUBLIC"
-    subnet_id                 = "ocid1.subnet.oc1.iad.aaaaaaaaek43v3qrcr2aycpdbav5ufe3zq32trulojazand42qdzi4iejd7q"
+    subnet_id                 = "ocid1.subnet.oc1.iad.aaaaaaaavu5zwddbpm6pmq5c5vm2zn2c76t2ympznycmyi2htvxcuvrgau6a"
     display_name              = "simple_gateway"
   }
 
@@ -205,7 +205,7 @@ subscriber = {
   }
 
 usage_plan =   {
-    display_name = "BasicPlan"
+    display_name = "BasicUsagePlan"
     entitlement = {
         name        = "Entitlement1"
         description = "Basic plan entitlement"
