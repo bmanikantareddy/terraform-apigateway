@@ -1,11 +1,11 @@
-compartment_id = "ocid1.compartment.oc1..aaaaaaaal2o4vaqyt3kiwvezviozntgck5pp33eihmgdvofrxpl4fiiyztaq"
+compartment_id = "ocid1.compartment.oc1..aaaaaaaabl7czxnk2u4dwczohgcrkkpboxyjaenp7pln7cfjmclaaf7dwr2a"
 
 # Gate object containing details to create OCI API gate way
 gateway = [
   {
     id                        = 123456789
     endpoint_type             = "PUBLIC"
-    subnet_id                 = "ocid1.subnet.oc1.iad.aaaaaaaaek43v3qrcr2aycpdbav5ufe3zq32trulojazand42qdzi4iejd7q"
+    subnet_id                 = "ocid1.subnet.oc1.iad.aaaaaaaavu5zwddbpm6pmq5c5vm2zn2c76t2ympznycmyi2htvxcuvrgau6a"
     defined_tags              = { }
     display_name              = "oal_api_gateway"
     freeform_tags             = {
