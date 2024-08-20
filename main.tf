@@ -829,6 +829,11 @@ resource "oci_apigateway_subscriber" "this" {
       token = uuid() #random_string.client_token[for_each.key].result
     }
   }
+  lifecycle {
+    ignore_changes = [
+      clients # This ignores changes to the token field across all clients
+    ]
+  }
 }
 
 resource "oci_apigateway_usage_plan" "this" {
