@@ -43,11 +43,8 @@ variable "gateway" {
 variable "deployment" {
   type = list(object({
     id            = number
-    gateway_id    = number
     path_prefix   = string
     display_name  = optional(string)
-    freeform_tags = optional(map(string))
-    defined_tags  = optional(map(string))
     specification = optional(list(object({
       logging_policies = optional(list(object({
         access_log = optional(list(object({

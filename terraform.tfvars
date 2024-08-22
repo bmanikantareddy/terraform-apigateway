@@ -11,183 +11,183 @@ gateway = {
 # if you want to use the exisitng API gateway instead of creating New one. Provide the gateway OCID like below
 gateway_id="ocid1.apigateway.oc1.iad.amaaaaaan3n6yvyauxl4bzhisgldofdfi4va6n4ryflwjxkjnuhlekykgiwa"
 # deployment Object containing details to create OCI API gateway deployment
-# deployment = [
-#   {
-#     id            = 1
-#     gateway_id    = 123456789
-#     path_prefix   = "/api/v1"
-#     display_name  = "first_deployment"
-#     freeform_tags = {
-#       "environment" = "prod"
-#       "team"        = "ola_devops"
-#     }
-#     defined_tags  = {}
-#     specification = [
-#       {
-#         logging_policies = [
-#           {
-#             access_log = [
-#               {
-#                 is_enabled = true
-#               }
-#             ]
-#             execution_log = [
-#               {
-#                 is_enabled = true
-#                 log_level  = "INFO"
-#               }
-#             ]
-#           }
-#         ]
-#         request_policies = [
-#           {
-#             authentication = [
-#               {
-#                 type                        = "JWT_AUTHENTICATION"
-#                 # audiences                   = ["example.com"]
-#                 is_anonymous_access_allowed = false
-#                 issuers                     = ["https://identity.oraclecloud.com/"]
-#                 max_clock_skew_in_seconds   = 30
-#                 parameters                  = {}
-#                 token_auth_scheme           = "Bearer"
-#                 token_header                = "Authorization"
-#                 public_keys = [
-#                   {
-#                     type                        = "STATIC_KEYS"
-#                     is_ssl_verify_disabled      = false
-#                     max_cache_duration_in_hours = 0
-#                     keys = [
-#                       {
-#                         alg     = "RS256"
-#                         e       = "AQAB"
-#                         format  = "JSON_WEB_KEY"
-#                         kid     = "SIGNING_KEY"
-#                         kty     = "RSA"
-#                         n       = "sXTvafoBh22bXk492Lp-OOaPRdcQJx3MtdOytgoBjgEOMQXT_nKoSISgxMF0MoEIZqrqMdiuycrK4sXgVc2cMmDZRG0Nsucze2x9hPJ8N-YDa6dPON9xU0nrtGf49E4BT1fdRt8c2zQHS_25K-JaZlhrWuy3wAbczUFTzqsvxPYs4ku704gXrPKH-gg1PUI6zYs4dtIoPLzKCDywNDcjBsFV5eLwpDuEnlQ8mnmJt8RmsddBd4tNPTBQXKfHJisIYqjT4qhmTpI4e1LdkEs5dl2Pr2OxpB--ZDE7owaR7sOtbD4mMgeqP7qLP4eaCIKz6WA4mWOlm-evTvVfjcOVew"
-#                         use     = "sig"
-#                         #key_ops = ""
-#                       }
-#                     ]
-#                   }
-#                 ]
-#                 validation_failure_policy = [ ]
-#                 validation_policy =  [ ]
-#               }
-#             ]
-#             # cors = [
-#             #   {
-#             #     allowed_origins              = ["*"]
-#             #     allowed_headers              = ["Content-Type"]
-#             #     allowed_methods              = ["GET", "POST"]
-#             #     exposed_headers              = ["X-Custom-Header"]
-#             #     is_allow_credentials_enabled = true
-#             #     max_age_in_seconds           = 3600
-#             #   }
-#             # ]
-#             # rate_limiting = [
-#             #   {
-#             #     rate_in_requests_per_second = 10
-#             #     rate_key                    = "client_ip"
-#             #   }
-#             # ]
-#             usage_plans = [
-#               {
-#                 token_locations = ["request.headers[client-id]"]
-#               }
-#             ]
-#           }
-#         ]
-#         routes = [ 
-#           # route1  
-#           {
-#             path    = "/users"
-#             methods = ["GET"]
-#             backend = [
-#               {
-#                 type                       = "HTTP_BACKEND"
-#                 url                        = "http://129.159.105.110/users"
-#                 is_ssl_verify_disabled     = false
-#                 headers = []
-#               }
-#             ]
-#             logging_policies = [
-#               {
-#                 access_log = [
-#                   {
-#                     is_enabled = true
-#                   }
-#                 ]
-#                 execution_log = [
-#                   {
-#                     is_enabled = true
-#                     log_level  = "INFO"
-#                   }
-#                 ]
-#               }
-#             ]
-#           },
-#           # route2  
-#           {
-#             path    = "/users/{userid}"
-#             methods = ["GET"]
-#             backend = [
-#               {
-#                 type                       = "HTTP_BACKEND"
-#                 url                        = "http://129.159.105.110/users/$${request.path[userid]}"
-#                 is_ssl_verify_disabled     = false
-#                 headers = []
-#               }
-#             ]
-#             logging_policies = [
-#               {
-#                 access_log = [
-#                   {
-#                     is_enabled = true
-#                   }
-#                 ]
-#                 execution_log = [
-#                   {
-#                     is_enabled = true
-#                     log_level  = "INFO"
-#                   }
-#                 ]
-#               }
-#             ]
-#           },
-#           # route3
-#           {
-#             path    = "/hello"
-#             methods = ["GET"]
-#             backend = [
-#               {
-#                 type                       = "HTTP_BACKEND"
-#                 url                        = "https://api.weather.gov"
-#                 is_ssl_verify_disabled     = false
-#                 headers = []
-#               }
-#             ]
-#             logging_policies = [
-#               {
-#                 access_log = [
-#                   {
-#                     is_enabled = true
-#                   }
-#                 ]
-#                 execution_log = [
-#                   {
-#                     is_enabled = true
-#                     log_level  = "INFO"
-#                   }
-#                 ]
-#               }
-#             ]
-#           }
+deployment = [
+  {
+    id            = 1
+    gateway_id    = 123456789
+    path_prefix   = "/api/v1"
+    display_name  = "first_deployment"
+    freeform_tags = {
+      "environment" = "prod"
+      "team"        = "ola_devops"
+    }
+    defined_tags  = {}
+    specification = [
+      {
+        logging_policies = [
+          {
+            access_log = [
+              {
+                is_enabled = true
+              }
+            ]
+            execution_log = [
+              {
+                is_enabled = true
+                log_level  = "INFO"
+              }
+            ]
+          }
+        ]
+        request_policies = [
+          {
+            authentication = [
+              {
+                type                        = "JWT_AUTHENTICATION"
+                # audiences                   = ["example.com"]
+                is_anonymous_access_allowed = false
+                issuers                     = ["https://identity.oraclecloud.com/"]
+                max_clock_skew_in_seconds   = 30
+                parameters                  = {}
+                token_auth_scheme           = "Bearer"
+                token_header                = "Authorization"
+                public_keys = [
+                  {
+                    type                        = "STATIC_KEYS"
+                    is_ssl_verify_disabled      = false
+                    max_cache_duration_in_hours = 0
+                    keys = [
+                      {
+                        alg     = "RS256"
+                        e       = "AQAB"
+                        format  = "JSON_WEB_KEY"
+                        kid     = "SIGNING_KEY"
+                        kty     = "RSA"
+                        n       = "sXTvafoBh22bXk492Lp-OOaPRdcQJx3MtdOytgoBjgEOMQXT_nKoSISgxMF0MoEIZqrqMdiuycrK4sXgVc2cMmDZRG0Nsucze2x9hPJ8N-YDa6dPON9xU0nrtGf49E4BT1fdRt8c2zQHS_25K-JaZlhrWuy3wAbczUFTzqsvxPYs4ku704gXrPKH-gg1PUI6zYs4dtIoPLzKCDywNDcjBsFV5eLwpDuEnlQ8mnmJt8RmsddBd4tNPTBQXKfHJisIYqjT4qhmTpI4e1LdkEs5dl2Pr2OxpB--ZDE7owaR7sOtbD4mMgeqP7qLP4eaCIKz6WA4mWOlm-evTvVfjcOVew"
+                        use     = "sig"
+                        #key_ops = ""
+                      }
+                    ]
+                  }
+                ]
+                validation_failure_policy = [ ]
+                validation_policy =  [ ]
+              }
+            ]
+            # cors = [
+            #   {
+            #     allowed_origins              = ["*"]
+            #     allowed_headers              = ["Content-Type"]
+            #     allowed_methods              = ["GET", "POST"]
+            #     exposed_headers              = ["X-Custom-Header"]
+            #     is_allow_credentials_enabled = true
+            #     max_age_in_seconds           = 3600
+            #   }
+            # ]
+            # rate_limiting = [
+            #   {
+            #     rate_in_requests_per_second = 10
+            #     rate_key                    = "client_ip"
+            #   }
+            # ]
+            usage_plans = [
+              {
+                token_locations = ["request.headers[client-id]"]
+              }
+            ]
+          }
+        ]
+        routes = [ 
+          # route1  
+          {
+            path    = "/users"
+            methods = ["GET"]
+            backend = [
+              {
+                type                       = "HTTP_BACKEND"
+                url                        = "http://129.159.105.110/users"
+                is_ssl_verify_disabled     = false
+                headers = []
+              }
+            ]
+            logging_policies = [
+              {
+                access_log = [
+                  {
+                    is_enabled = true
+                  }
+                ]
+                execution_log = [
+                  {
+                    is_enabled = true
+                    log_level  = "INFO"
+                  }
+                ]
+              }
+            ]
+          },
+          # route2  
+          {
+            path    = "/users/{userid}"
+            methods = ["GET"]
+            backend = [
+              {
+                type                       = "HTTP_BACKEND"
+                url                        = "http://129.159.105.110/users/$${request.path[userid]}"
+                is_ssl_verify_disabled     = false
+                headers = []
+              }
+            ]
+            logging_policies = [
+              {
+                access_log = [
+                  {
+                    is_enabled = true
+                  }
+                ]
+                execution_log = [
+                  {
+                    is_enabled = true
+                    log_level  = "INFO"
+                  }
+                ]
+              }
+            ]
+          },
+          # route3
+          {
+            path    = "/hello"
+            methods = ["GET"]
+            backend = [
+              {
+                type                       = "HTTP_BACKEND"
+                url                        = "https://api.weather.gov"
+                is_ssl_verify_disabled     = false
+                headers = []
+              }
+            ]
+            logging_policies = [
+              {
+                access_log = [
+                  {
+                    is_enabled = true
+                  }
+                ]
+                execution_log = [
+                  {
+                    is_enabled = true
+                    log_level  = "INFO"
+                  }
+                ]
+              }
+            ]
+          }
 
-#         ]
-#       }
-#     ]
-#   }
-# ]
+        ]
+      }
+    ]
+  }
+]
 
 ## 
 subscriber = {
