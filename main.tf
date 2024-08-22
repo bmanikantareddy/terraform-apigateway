@@ -807,14 +807,14 @@ resource "oci_apigateway_gateway" "this" {
 # }
 
 # for generating the token randonmly for the subscribers client
-resource "random_string" "client_token" {
-  count  = length(var.subscriber.clients)
-  special = false
-  upper   = true
-  lower   = true
-  numeric  = true
-  length  = 8  # Specify the length of the token here
-}
+# resource "random_string" "client_token" {
+#   count  = length(var.subscriber.clients)
+#   special = false
+#   upper   = true
+#   lower   = true
+#   numeric  = true
+#   length  = 8  # Specify the length of the token here
+# }
 
 resource "oci_apigateway_subscriber" "this" {
   count          = length(var.subscriber) > 0 ? 1 : 0

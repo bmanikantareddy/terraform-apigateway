@@ -200,6 +200,10 @@ subscriber = {
       {
         name  = "ClientB"
         # token = "def456"
+      },
+      {
+        name  = "ClientC"
+        # token = "def456"
       }
     ]
   }
