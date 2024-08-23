@@ -1,12 +1,12 @@
 tenancy_id = "ocid1.tenancy.oc1..aaaaaaaaaq37gwcnkgq7wsgyydh3tbhg2xvtcmt56mxkmt35qvqaohb7vrhq"
-compartment_id = "ocid1.compartment.oc1..aaaaaaaabl7czxnk2u4dwczohgcrkkpboxyjaenp7pln7cfjmclaaf7dwr2a"
+compartment_id = "ocid1.compartment.oc1..aaaaaaaayp3344wjk7ezaf5s7acep5sxm6q4cdegpu3lyt3dgp7vd5oifr6q"
 compartment_name = "oal_api_gateway"
 
-# Gate object containing details to create OCI API gate way
+# Gateway object containing details to create OCI API gate way
 gateway = {
     endpoint_type             = "PUBLIC"
-    subnet_id                 = "ocid1.subnet.oc1.iad.aaaaaaaavu5zwddbpm6pmq5c5vm2zn2c76t2ympznycmyi2htvxcuvrgau6a"
-    display_name              = "simple_gateway"
+    subnet_id                 = "ocid1.subnet.oc1.iad.aaaaaaaaoaixgtgoo3sggsfzycct5ys43a72kiaz5n5vl6ob6vcytxt74wyq"
+    display_name              = "oalprod-test-apigw"
   }
 
 # if you want to use the exisitng API gateway instead of creating New one. Provide the gateway OCID like below
@@ -15,8 +15,8 @@ gateway = {
 deployment = [
   {
     id            = 1
-    path_prefix   = "/api/v1"
-    display_name  = "first_deployment"
+    path_prefix   = "/"
+    display_name  = "api-gateway-shared-infra"
     specification = [
       {
         logging_policies = [
@@ -63,8 +63,6 @@ deployment = [
                     ]
                   }
                 ]
-                validation_failure_policy = [ ]
-                validation_policy =  [ ]
               }
             ]
             usage_plans = [
@@ -77,14 +75,13 @@ deployment = [
         routes = [ 
           # route1  
           {
-            path    = "/users"
-            methods = ["GET"]
+            path    = "/generate/gpu"
+            methods = ["POST"]
             backend = [
               {
                 type                       = "HTTP_BACKEND"
-                url                        = "http://129.159.105.110/users"
+                url                        = "http://10.3.232.112:80/generate"
                 is_ssl_verify_disabled     = false
-                headers = []
               }
             ]
             logging_policies = [
@@ -105,14 +102,13 @@ deployment = [
           },
           # route2  
           {
-            path    = "/users/{userid}"
-            methods = ["GET"]
+            path    = "/generate/cpu"
+            methods = ["POST"]
             backend = [
               {
                 type                       = "HTTP_BACKEND"
-                url                        = "http://129.159.105.110/users/$${request.path[userid]}"
+                url                        = "http://10.3.232.112:8001/completion"
                 is_ssl_verify_disabled     = false
-                headers = []
               }
             ]
             logging_policies = [
@@ -133,12 +129,12 @@ deployment = [
           },
           # route3
           {
-            path    = "/hello"
-            methods = ["GET"]
+            path    = "/agents/tgi/v1/chat/completions"
+            methods = ["POST"]
             backend = [
               {
                 type                       = "HTTP_BACKEND"
-                url                        = "https://api.weather.gov"
+                url                        = "http://10.3.232.112:80/v1/chat/completions"
                 is_ssl_verify_disabled     = false
                 headers = []
               }
@@ -158,8 +154,85 @@ deployment = [
                 ]
               }
             ]
+          },
+          {
+            path    = "/agents/vllm/v1/chat/completions"
+            methods = ["POST"]
+            backend = [
+              {
+                type                       = "HTTP_BACKEND"
+                url                        = "http://10.3.232.33:80/v1/chat/completions"
+                is_ssl_verify_disabled     = false
+              }
+            ]
+            logging_policies = [
+              {
+                access_log = [
+                  {
+                    is_enabled = true
+                  }
+                ]
+                execution_log = [
+                  {
+                    is_enabled = true
+                    log_level  = "INFO"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            path    = "/agents/cpu/v1/chat/completions"
+            methods = ["POST"]
+            backend = [
+              {
+                type                       = "HTTP_BACKEND"
+                url                        = "http://10.3.232.112:8001/v1/chat/completions"
+                is_ssl_verify_disabled     = false
+              }
+            ]
+            logging_policies = [
+              {
+                access_log = [
+                  {
+                    is_enabled = true
+                  }
+                ]
+                execution_log = [
+                  {
+                    is_enabled = true
+                    log_level  = "INFO"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            path    = "/generate/vllm"
+            methods = ["POST"]
+            backend = [
+              {
+                type                       = "HTTP_BACKEND"
+                url                        = "http://10.3.232.33:80/v1/completions"
+                is_ssl_verify_disabled     = false
+              }
+            ]
+            logging_policies = [
+              {
+                access_log = [
+                  {
+                    is_enabled = true
+                  }
+                ]
+                execution_log = [
+                  {
+                    is_enabled = true
+                    log_level  = "INFO"
+                  }
+                ]
+              }
+            ]
           }
-
         ]
       }
     ]
