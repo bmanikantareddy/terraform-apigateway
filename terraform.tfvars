@@ -9,19 +9,13 @@ gateway = {
   }
 
 # if you want to use the exisitng API gateway instead of creating New one. Provide the gateway OCID like below
-gateway_id="ocid1.apigateway.oc1.iad.amaaaaaan3n6yvyauxl4bzhisgldofdfi4va6n4ryflwjxkjnuhlekykgiwa"
+#gateway_id="ocid1.apigateway.oc1.iad.amaaaaaan3n6yvyauxl4bzhisgldofdfi4va6n4ryflwjxkjnuhlekykgiwa"
 # deployment Object containing details to create OCI API gateway deployment
 deployment = [
   {
     id            = 1
-    gateway_id    = 123456789
     path_prefix   = "/api/v1"
     display_name  = "first_deployment"
-    freeform_tags = {
-      "environment" = "prod"
-      "team"        = "ola_devops"
-    }
-    defined_tags  = {}
     specification = [
       {
         logging_policies = [
