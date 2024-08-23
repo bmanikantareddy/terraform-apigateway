@@ -241,25 +241,25 @@ deployment = [
 
 ## 
 subscriber = {
-    display_name = "Subscriber1"
+    display_name = "AIOPS"
     clients = [
       {
-        name  = "ClientA"
+        name  = "aiops_team"
         # token = "abc123"
       },
-      {
-        name  = "ClientB"
-        # token = "def456"
-      },
-      {
-        name  = "ClientC"
-        # token = "def456"
-      }
+      # {
+      #   name  = "ClientB"
+      #   # token = "def456"
+      # },
+      # {
+      #   name  = "ClientC"
+      #   # token = "def456"
+      # }
     ]
   }
 
 usage_plan =   {
-    display_name = "BasicUsagePlan"
+    display_name = "oal_gw_usage_plan"
     entitlement = {
         name        = "Entitlement1"
         description = "Basic plan entitlement"
