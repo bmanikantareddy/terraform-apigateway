@@ -1,5 +1,6 @@
 tenancy_id = "ocid1.tenancy.oc1..aaaaaaaaaq37gwcnkgq7wsgyydh3tbhg2xvtcmt56mxkmt35qvqaohb7vrhq"
 compartment_id = "ocid1.compartment.oc1..aaaaaaaabl7czxnk2u4dwczohgcrkkpboxyjaenp7pln7cfjmclaaf7dwr2a"
+compartment_name = "oal_api_gateway"
 
 # Gate object containing details to create OCI API gate way
 gateway = {
@@ -38,7 +39,6 @@ deployment = [
             authentication = [
               {
                 type                        = "JWT_AUTHENTICATION"
-                # audiences                   = ["example.com"]
                 is_anonymous_access_allowed = false
                 issuers                     = ["https://identity.oraclecloud.com/"]
                 max_clock_skew_in_seconds   = 30
@@ -59,7 +59,6 @@ deployment = [
                         kty     = "RSA"
                         n       = "sXTvafoBh22bXk492Lp-OOaPRdcQJx3MtdOytgoBjgEOMQXT_nKoSISgxMF0MoEIZqrqMdiuycrK4sXgVc2cMmDZRG0Nsucze2x9hPJ8N-YDa6dPON9xU0nrtGf49E4BT1fdRt8c2zQHS_25K-JaZlhrWuy3wAbczUFTzqsvxPYs4ku704gXrPKH-gg1PUI6zYs4dtIoPLzKCDywNDcjBsFV5eLwpDuEnlQ8mnmJt8RmsddBd4tNPTBQXKfHJisIYqjT4qhmTpI4e1LdkEs5dl2Pr2OxpB--ZDE7owaR7sOtbD4mMgeqP7qLP4eaCIKz6WA4mWOlm-evTvVfjcOVew"
                         use     = "sig"
-                        #key_ops = ""
                       }
                     ]
                   }
@@ -68,22 +67,6 @@ deployment = [
                 validation_policy =  [ ]
               }
             ]
-            # cors = [
-            #   {
-            #     allowed_origins              = ["*"]
-            #     allowed_headers              = ["Content-Type"]
-            #     allowed_methods              = ["GET", "POST"]
-            #     exposed_headers              = ["X-Custom-Header"]
-            #     is_allow_credentials_enabled = true
-            #     max_age_in_seconds           = 3600
-            #   }
-            # ]
-            # rate_limiting = [
-            #   {
-            #     rate_in_requests_per_second = 10
-            #     rate_key                    = "client_ip"
-            #   }
-            # ]
             usage_plans = [
               {
                 token_locations = ["request.headers[client-id]"]

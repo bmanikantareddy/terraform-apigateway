@@ -6,6 +6,10 @@ variable "compartment_id" {
   description = "The compartment OCID"
   type        = string
 }
+variable "compartment_name" {
+  description = "The compartment OCID"
+  type        = string
+}
 
 # this defined_tags and Freeform_tags will apply for all the objectes created with this file.
 variable "defined_tags" {

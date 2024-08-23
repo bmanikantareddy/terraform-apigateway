@@ -1,32 +1,9 @@
-# variable "deployment_path_prefix" {
-#   default = "/v2"
+# locals {
+#   client_tokens = {
+#     for_each = var.subscriber.clients
+#     value    = uuid()
+#   }
 # }
-
-# variable "deployment_specification_routes_backend_type" {
-#   default = "HTTP_BACKEND"
-# }
-
-# variable "deployment_specification_routes_backend_url" {
-#   default = "https://api.weather.gov"
-# }
-
-# variable "deployment_specification_routes_methods" {
-#   default = ["GET"]
-# }
-
-# variable "deployment_specification_routes_path" {
-#   default = "/hello"
-# }
-# variable "deployment_specification_routes_path1" {
-#   default = "/hello1"
-# }
-
-locals {
-  client_tokens = {
-    for_each = var.subscriber.clients
-    value    = uuid()
-  }
-}
 
 resource "oci_apigateway_gateway" "this" {
   count          = length(var.gateway_id) > 0 ? 0 : 1
@@ -41,7 +18,7 @@ resource "oci_apigateway_gateway" "this" {
 }
 
 resource "oci_apigateway_deployment" "this" {
-  count          = length(var.deployment) == "0" ? "0" : length(var.gateway)
+  count          = length(var.deployment) > 0 ? 1 : 0
   compartment_id = var.compartment_id
   gateway_id = length(var.gateway_id) > 0 ? data.oci_apigateway_gateway.this[0].id : oci_apigateway_gateway.this[0].id  
   path_prefix  = lookup(var.deployment[count.index], "path_prefix")
@@ -110,7 +87,8 @@ resource "oci_apigateway_deployment" "this" {
               }
             }
           }
-          dynamic "usage_plan" {
+
+          dynamic "usage_plans" {
             for_each = lookup(request_policies.value, "usage_plan", [])
             content {
               token_locations = lookup(usage_plan.value, "token_locations")
@@ -416,16 +394,6 @@ resource "oci_apigateway_deployment" "this" {
     }
   }
 }
-
-# for generating the token randonmly for the subscribers client
-# resource "random_string" "client_token" {
-#   count  = length(var.subscriber.clients)
-#   special = false
-#   upper   = true
-#   lower   = true
-#   numeric  = true
-#   length  = 8  # Specify the length of the token here
-# }
 
 resource "oci_apigateway_subscriber" "this" {
   count          = length(var.subscriber) > 0 ? 1 : 0
