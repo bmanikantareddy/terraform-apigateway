@@ -6,7 +6,7 @@ compartment_name = "oal_api_gateway"
 gateway = {
     endpoint_type             = "PUBLIC"
     subnet_id                 = "ocid1.subnet.oc1.iad.aaaaaaaaoaixgtgoo3sggsfzycct5ys43a72kiaz5n5vl6ob6vcytxt74wyq"
-    display_name              = "oalprod-test-apigw"
+    display_name              = "oal-ai-gateway"
   }
 
 # if you want to use the exisitng API gateway instead of creating New one. Provide the gateway OCID like below
@@ -22,14 +22,14 @@ deployment = [
         logging_policies = [
           {
             access_log = [
-              {
-                is_enabled = true
-              }
+              # {
+              #   is_enabled = false
+              # }
             ]
             execution_log = [
               {
-                is_enabled = true
-                log_level  = "INFO"
+                is_enabled = false
+                //log_level  = "INFO"
               }
             ]
           }
@@ -37,33 +37,33 @@ deployment = [
         request_policies = [
           {
             authentication = [
-              {
-                type                        = "JWT_AUTHENTICATION"
-                is_anonymous_access_allowed = false
-                issuers                     = ["https://identity.oraclecloud.com/"]
-                max_clock_skew_in_seconds   = 30
-                parameters                  = {}
-                token_auth_scheme           = "Bearer"
-                token_header                = "Authorization"
-                public_keys = [
-                  {
-                    type                        = "STATIC_KEYS"
-                    is_ssl_verify_disabled      = false
-                    max_cache_duration_in_hours = 0
-                    keys = [
-                      {
-                        alg     = "RS256"
-                        e       = "AQAB"
-                        format  = "JSON_WEB_KEY"
-                        kid     = "SIGNING_KEY"
-                        kty     = "RSA"
-                        n       = "sXTvafoBh22bXk492Lp-OOaPRdcQJx3MtdOytgoBjgEOMQXT_nKoSISgxMF0MoEIZqrqMdiuycrK4sXgVc2cMmDZRG0Nsucze2x9hPJ8N-YDa6dPON9xU0nrtGf49E4BT1fdRt8c2zQHS_25K-JaZlhrWuy3wAbczUFTzqsvxPYs4ku704gXrPKH-gg1PUI6zYs4dtIoPLzKCDywNDcjBsFV5eLwpDuEnlQ8mnmJt8RmsddBd4tNPTBQXKfHJisIYqjT4qhmTpI4e1LdkEs5dl2Pr2OxpB--ZDE7owaR7sOtbD4mMgeqP7qLP4eaCIKz6WA4mWOlm-evTvVfjcOVew"
-                        use     = "sig"
-                      }
-                    ]
-                  }
-                ]
-              }
+              # {
+              #   type                        = "JWT_AUTHENTICATION"
+              #   is_anonymous_access_allowed = false
+              #   issuers                     = ["https://identity.oraclecloud.com/"]
+              #   max_clock_skew_in_seconds   = 30
+              #   parameters                  = {}
+              #   token_auth_scheme           = "Bearer"
+              #   token_header                = "Authorization"
+              #   public_keys = [
+              #     {
+              #       type                        = "STATIC_KEYS"
+              #       is_ssl_verify_disabled      = false
+              #       max_cache_duration_in_hours = 0
+              #       keys = [
+              #         {
+              #           alg     = "RS256"
+              #           e       = "AQAB"
+              #           format  = "JSON_WEB_KEY"
+              #           kid     = "SIGNING_KEY"
+              #           kty     = "RSA"
+              #           n       = "sXTvafoBh22bXk492Lp-OOaPRdcQJx3MtdOytgoBjgEOMQXT_nKoSISgxMF0MoEIZqrqMdiuycrK4sXgVc2cMmDZRG0Nsucze2x9hPJ8N-YDa6dPON9xU0nrtGf49E4BT1fdRt8c2zQHS_25K-JaZlhrWuy3wAbczUFTzqsvxPYs4ku704gXrPKH-gg1PUI6zYs4dtIoPLzKCDywNDcjBsFV5eLwpDuEnlQ8mnmJt8RmsddBd4tNPTBQXKfHJisIYqjT4qhmTpI4e1LdkEs5dl2Pr2OxpB--ZDE7owaR7sOtbD4mMgeqP7qLP4eaCIKz6WA4mWOlm-evTvVfjcOVew"
+              #           use     = "sig"
+              #         }
+              #       ]
+              #     }
+              #   ]
+              # }
             ]
             usage_plans = [
               {
@@ -85,19 +85,19 @@ deployment = [
               }
             ]
             logging_policies = [
-              {
-                access_log = [
-                  {
-                    is_enabled = true
-                  }
-                ]
-                execution_log = [
-                  {
-                    is_enabled = true
-                    log_level  = "INFO"
-                  }
-                ]
-              }
+              # {
+              #   access_log = [
+              #     {
+              #       is_enabled = false
+              #     }
+              #   ]
+              #   execution_log = [
+              #     {
+              #       is_enabled = false
+              #       log_level  = "INFO"
+              #     }
+              #   ]
+              # }
             ]
           },
           # route2  
@@ -112,19 +112,19 @@ deployment = [
               }
             ]
             logging_policies = [
-              {
-                access_log = [
-                  {
-                    is_enabled = true
-                  }
-                ]
-                execution_log = [
-                  {
-                    is_enabled = true
-                    log_level  = "INFO"
-                  }
-                ]
-              }
+              # {
+              #   access_log = [
+              #     {
+              #       is_enabled = true
+              #     }
+              #   ]
+              #   execution_log = [
+              #     {
+              #       is_enabled = true
+              #       log_level  = "INFO"
+              #     }
+              #   ]
+              # }
             ]
           },
           # route3
@@ -140,19 +140,19 @@ deployment = [
               }
             ]
             logging_policies = [
-              {
-                access_log = [
-                  {
-                    is_enabled = true
-                  }
-                ]
-                execution_log = [
-                  {
-                    is_enabled = true
-                    log_level  = "INFO"
-                  }
-                ]
-              }
+              # {
+              #   access_log = [
+              #     {
+              #       is_enabled = true
+              #     }
+              #   ]
+              #   execution_log = [
+              #     {
+              #       is_enabled = true
+              #       log_level  = "INFO"
+              #     }
+              #   ]
+              # }
             ]
           },
           {
@@ -166,19 +166,19 @@ deployment = [
               }
             ]
             logging_policies = [
-              {
-                access_log = [
-                  {
-                    is_enabled = true
-                  }
-                ]
-                execution_log = [
-                  {
-                    is_enabled = true
-                    log_level  = "INFO"
-                  }
-                ]
-              }
+              # {
+              #   access_log = [
+              #     {
+              #       is_enabled = true
+              #     }
+              #   ]
+              #   execution_log = [
+              #     {
+              #       is_enabled = true
+              #       log_level  = "INFO"
+              #     }
+              #   ]
+              # }
             ]
           },
           {
@@ -192,19 +192,19 @@ deployment = [
               }
             ]
             logging_policies = [
-              {
-                access_log = [
-                  {
-                    is_enabled = true
-                  }
-                ]
-                execution_log = [
-                  {
-                    is_enabled = true
-                    log_level  = "INFO"
-                  }
-                ]
-              }
+              # {
+              #   access_log = [
+              #     {
+              #       is_enabled = true
+              #     }
+              #   ]
+              #   execution_log = [
+              #     {
+              #       is_enabled = true
+              #       log_level  = "INFO"
+              #     }
+              #   ]
+              # }
             ]
           },
           {
@@ -218,19 +218,19 @@ deployment = [
               }
             ]
             logging_policies = [
-              {
-                access_log = [
-                  {
-                    is_enabled = true
-                  }
-                ]
-                execution_log = [
-                  {
-                    is_enabled = true
-                    log_level  = "INFO"
-                  }
-                ]
-              }
+              # {
+              #   access_log = [
+              #     {
+              #       is_enabled = true
+              #     }
+              #   ]
+              #   execution_log = [
+              #     {
+              #       is_enabled = true
+              #       log_level  = "INFO"
+              #     }
+              #   ]
+              # }
             ]
           }
         ]
@@ -240,42 +240,88 @@ deployment = [
 ]
 
 ## 
-subscriber = {
-    display_name = "AIOPS"
-    clients = [
-      {
-        name  = "aiops_team"
-        # token = "abc123"
-      },
-      # {
-      #   name  = "ClientB"
-      #   # token = "def456"
-      # },
-      # {
-      #   name  = "ClientC"
-      #   # token = "def456"
-      # }
-    ]
-  }
+# subscriber = {
+#     display_name = "AIOPS"
+#     clients = [
+#       {
+#         name  = "aiops_team"
+#         # token = "abc123"
+#       },
+#       # {
+#       #   name  = "ClientB"
+
+#       #   # token = "def456"
+#       # },
+#       # {
+#       #   name  = "ClientC"
+#       #   # token = "def456"
+#       # }
+#     ]
+#   }
+
 
 usage_plan =   {
-    display_name = "oal_gw_usage_plan"
+    display_name = "aiops_team"
     entitlement = {
-        name        = "Entitlement1"
-        description = "Basic plan entitlement"
+        name        = "aiops"
+        description = "aiops team plan"
         quota = {
             operation_on_breach = "REJECT"
             reset_policy        = "CALENDAR"
             unit                = "HOUR"
-            value               = 1000
+            value               = 5000
           }
         rate_limit = {
             unit  = "SECOND"
-            value = 10
+            value = 5
           }
       }
   }
 
+
+subscriber = [
+  {
+    id = 1
+    display_name = "oTech"
+    clients = [
+      {
+        name  = "oTech"
+        token = "Q0v23abPwVyKnDlxgk5YnssrRonyktzHx2zsfY-BcRA"
+      }
+    ]
+  },
+  {
+    id = 2
+    display_name = "agent49"
+    clients = [
+      {
+        name  = "agent49"
+        token = "CKxh6AvPsYvWNrh4Qy5U0hbDpxQ4yBWdGSEYzzXGeQg"
+      }
+    ]
+  },
+  {
+    id = 3
+    display_name = "biops_team"
+    clients = [
+      {
+        name  = "biops"
+        token = "b6CCuqfyG8SQRPvqET8PsCxxBLVQMHlhcA901eLImtM"
+      }
+    ]
+  },
+  {
+    id = 4
+    display_name = "contractassist"
+    clients = [
+      {
+        name  = "contractassist"
+        token = "Uan8ECewIzhG4eZmzn7pGPRrL5TbGTKA6QBKEPa9bXA"
+      }
+    ]
+  },
+
+]
 
 ##############
 # Example Values for variables defined in variable.tf

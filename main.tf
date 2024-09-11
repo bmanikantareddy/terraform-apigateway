@@ -5,22 +5,17 @@
 #   }
 # }
 
-resource "oci_apigateway_gateway" "this" {
-  count          = length(var.gateway_id) > 0 ? 0 : 1
+resource "oci_apigateway_gateway" "apigateway" {
   compartment_id = var.compartment_id
   endpoint_type  = var.gateway.endpoint_type
   subnet_id      =  var.gateway.subnet_id
-    #   certificate_id = try(
-    #     data.oci_apigateway_certificate.this.certificate_id,
-    #     element(oci_apigateway_certificate.this.*.id, lookup(var.gateway[count.index], "certificate_id"))
-    #   )
   display_name = var.gateway.display_name
 }
 
-resource "oci_apigateway_deployment" "this" {
+resource "oci_apigateway_deployment" "gw_deployment" {
   count          = length(var.deployment) > 0 ? 1 : 0
   compartment_id = var.compartment_id
-  gateway_id = length(var.gateway_id) > 0 ? data.oci_apigateway_gateway.this[0].id : oci_apigateway_gateway.this[0].id  
+  gateway_id = oci_apigateway_gateway.apigateway.id 
   path_prefix  = lookup(var.deployment[count.index], "path_prefix")
   display_name = lookup(var.deployment[count.index], "display_name")
   dynamic "specification" {
@@ -51,7 +46,7 @@ resource "oci_apigateway_deployment" "this" {
             for_each = lookup(request_policies.value, "authentication",[])
             content {
               type                        = lookup(authentication.value, "type")
-              audiences                   = [ oci_apigateway_gateway.this[0].hostname ]
+              audiences                   = [ oci_apigateway_gateway.apigateway.hostname ]
               cache_key                   = lookup(authentication.value, "cache_key")
               function_id                 = lookup(authentication.value, "function_id")
               is_anonymous_access_allowed = lookup(authentication.value, "is_anonymous_access_allowed")
@@ -142,27 +137,7 @@ resource "oci_apigateway_deployment" "this" {
   }
 }
 
-resource "oci_apigateway_subscriber" "this" {
-  count          = length(var.subscriber) > 0 ? 1 : 0
-  compartment_id = var.compartment_id
-  usage_plans    = [oci_apigateway_usage_plan.this[0].id]
-
-  display_name = var.subscriber.display_name
-  dynamic "clients" {
-    for_each = var.subscriber.clients
-    content {
-      name  = lookup(clients.value, "name")
-      token = uuid() #random_string.client_token[for_each.key].result
-    }
-  }
-  lifecycle {
-    ignore_changes = [
-      clients # This ignores changes to the token field across all clients
-    ]
-  }
-}
-
-resource "oci_apigateway_usage_plan" "this" {
+resource "oci_apigateway_usage_plan" "usageplan" {
   count          = length(var.usage_plan) > 0 ? 1 : 0
   compartment_id = var.compartment_id
   display_name = var.usage_plan.display_name
@@ -181,19 +156,55 @@ resource "oci_apigateway_usage_plan" "this" {
       value = var.usage_plan.entitlement.rate_limit.value
     }
     targets {
-      deployment_id = "ocid1.apideployment.oc1.iad.amaaaaaan3n6yvyaoliqhad2sijnwpezo4llttarfk2nhwgcfzkmzifaazyq"
+      deployment_id = oci_apigateway_deployment.gw_deployment[0].id
+    }
+  }
+}
+
+# resource "oci_apigateway_subscriber" "subscriber" {
+#   count          = length(var.subscriber) > 0 ? 1 : 0
+#   compartment_id = var.compartment_id
+#   usage_plans    = [oci_apigateway_usage_plan.usageplan[0].id]
+
+#   display_name = var.subscriber.display_name
+#   dynamic "clients" {
+#     for_each = var.subscriber.clients
+#     content {
+#       name  = lookup(clients.value, "name")
+#       token = lookup(clients.value, "token") #uuid() 
+#     }
+#   }
+#   # lifecycle {
+#   #   ignore_changes = [
+#   #     clients # This ignores changes to the token field across all clients
+#   #   ]
+#   # }
+# }
+
+resource "oci_apigateway_subscriber" "subscriber" {
+  count          = length(var.subscriber)
+  compartment_id = var.compartment_id
+  usage_plans    = [oci_apigateway_usage_plan.usageplan[0].id]
+
+  display_name = lookup(var.subscriber[count.index], "display_name")
+  dynamic "clients" {
+    for_each = lookup(var.subscriber[count.index], "clients")
+    content {
+      name  = lookup(clients.value, "name")
+      token = lookup(clients.value, "token")
+
     }
   }
 }
 
 
-output "api_gateway_output" {
-  value = {
-    tenancy_id = var.tenancy_id
-    compartment = var.compartment_id
-    gateway_id = length(var.gateway_id) > 0 ? data.oci_apigateway_gateway.this[0].id : oci_apigateway_gateway.this[0].id 
-    usage_plan = oci_apigateway_usage_plan.this[0].id
-    subnet_id = oci_apigateway_subscriber.this[0].id
-    clients = oci_apigateway_subscriber.this[0].clients
-  }
-}
+# output "api_gateway_output" {
+#   value = {
+#     tenancy_id = var.tenancy_id
+#     compartment = var.compartment_id
+#     gateway_id = length(var.gateway_id) > 0 ? data.oci_apigateway_gateway.this[0].id : oci_apigateway_gateway.this[0].id 
+#     usage_plan = oci_apigateway_usage_plan.this[0].id
+#     subnet_id = oci_apigateway_subscriber.this[0].id
+#     clients = oci_apigateway_subscriber.this[0].clients
+#   }
+# }

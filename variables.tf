@@ -24,11 +24,11 @@ variable "freeform_tags" {
   description = "Freeform tags"
 }
 
-variable "gateway_id" {
-  description = "The OCI API gateway OCID"
-  type        = string
-  default = ""
-}
+# variable "gateway_id" {
+#   description = "The OCI API gateway OCID"
+#   type        = string
+#   default = ""
+# }
 
 variable "gateway" {
   type = object({
@@ -39,7 +39,7 @@ variable "gateway" {
   
   default = null
   description = <<EOF
-  This resource provides the Certificate resource in Oracle Cloud Infrastructure API Gateway service.
+  This resource provides the details to create API Gateway service in Oracle Cloud Infrastructure.
   EOF
 }
 
@@ -371,22 +371,22 @@ variable "deployment" {
   EOF
 }
 
-variable "subscriber" {
-  type = object({
-    display_name  = optional(string)
-    clients = list(object({
-      name  = string
-      # token = string
-    }))
-  })
-  default = {
-    display_name = null
-    clients = [] 
-  }
-  description = <<EOF
-This resource provides the Subscriber resource in Oracle Cloud Infrastructure API Gateway service.
-EOF
-}
+# variable "subscriber" {
+#   type = object({
+#     display_name  = optional(string)
+#     clients = list(object({
+#       name  = string
+#       # token = string
+#     }))
+#   })
+#   default = {
+#     display_name = null
+#     clients = [] 
+#   }
+#   description = <<EOF
+# This resource provides the Subscriber resource in Oracle Cloud Infrastructure API Gateway service.
+# EOF
+# }
 
 variable "usage_plan" {
   type = object({
@@ -425,4 +425,19 @@ variable "usage_plan" {
   description = <<EOF
   This resource provides the Usage Plan resource in Oracle Cloud Infrastructure API Gateway service.
   EOF
+}
+
+variable "subscriber" {
+  type = list(object({
+    id            = number
+    display_name  = optional(string)
+    clients = list(object({
+      name  = string
+      token = string
+    }))
+  }))
+  default = []
+  description = <<EOF
+This resource provides the Subscriber resource in Oracle Cloud Infrastructure API Gateway service.
+EOF
 }
