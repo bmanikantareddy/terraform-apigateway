@@ -43,6 +43,10 @@ variable "gateway" {
   EOF
 }
 
+variable "enable_authentication" {
+  type    = bool
+  default = true  # Set to false to disable authentication block
+}
 
 variable "deployment" {
   type = list(object({

@@ -12,11 +12,12 @@ gateway = {
 # if you want to use the exisitng API gateway instead of creating New one. Provide the gateway OCID like below
 #gateway_id="ocid1.apigateway.oc1.iad.amaaaaaan3n6yvyauxl4bzhisgldofdfi4va6n4ryflwjxkjnuhlekykgiwa"
 # deployment Object containing details to create OCI API gateway deployment
+enable_authentication=false
 deployment = [
   {
     id            = 1
     path_prefix   = "/"
-    display_name  = "api-gateway-shared-infra"
+    display_name  = "oal_test_shared_ai_gateway_deployment"
     specification = [
       {
         logging_policies = [
@@ -37,33 +38,33 @@ deployment = [
         request_policies = [
           {
             authentication = [
-              # {
-              #   type                        = "JWT_AUTHENTICATION"
-              #   is_anonymous_access_allowed = false
-              #   issuers                     = ["https://identity.oraclecloud.com/"]
-              #   max_clock_skew_in_seconds   = 30
-              #   parameters                  = {}
-              #   token_auth_scheme           = "Bearer"
-              #   token_header                = "Authorization"
-              #   public_keys = [
-              #     {
-              #       type                        = "STATIC_KEYS"
-              #       is_ssl_verify_disabled      = false
-              #       max_cache_duration_in_hours = 0
-              #       keys = [
-              #         {
-              #           alg     = "RS256"
-              #           e       = "AQAB"
-              #           format  = "JSON_WEB_KEY"
-              #           kid     = "SIGNING_KEY"
-              #           kty     = "RSA"
-              #           n       = "sXTvafoBh22bXk492Lp-OOaPRdcQJx3MtdOytgoBjgEOMQXT_nKoSISgxMF0MoEIZqrqMdiuycrK4sXgVc2cMmDZRG0Nsucze2x9hPJ8N-YDa6dPON9xU0nrtGf49E4BT1fdRt8c2zQHS_25K-JaZlhrWuy3wAbczUFTzqsvxPYs4ku704gXrPKH-gg1PUI6zYs4dtIoPLzKCDywNDcjBsFV5eLwpDuEnlQ8mnmJt8RmsddBd4tNPTBQXKfHJisIYqjT4qhmTpI4e1LdkEs5dl2Pr2OxpB--ZDE7owaR7sOtbD4mMgeqP7qLP4eaCIKz6WA4mWOlm-evTvVfjcOVew"
-              #           use     = "sig"
-              #         }
-              #       ]
-              #     }
-              #   ]
-              # }
+              {
+                type                        = "JWT_AUTHENTICATION"
+                is_anonymous_access_allowed = false
+                issuers                     = ["https://identity.oraclecloud.com/"]
+                max_clock_skew_in_seconds   = 30
+                parameters                  = {}
+                token_auth_scheme           = "Bearer"
+                token_header                = "Authorization"
+                public_keys = [
+                  {
+                    type                        = "STATIC_KEYS"
+                    is_ssl_verify_disabled      = false
+                    max_cache_duration_in_hours = 0
+                    keys = [
+                      {
+                        alg     = "RS256"
+                        e       = "AQAB"
+                        format  = "JSON_WEB_KEY"
+                        kid     = "SIGNING_KEY"
+                        kty     = "RSA"
+                        n       = "sXTvafoBh22bXk492Lp-OOaPRdcQJx3MtdOytgoBjgEOMQXT_nKoSISgxMF0MoEIZqrqMdiuycrK4sXgVc2cMmDZRG0Nsucze2x9hPJ8N-YDa6dPON9xU0nrtGf49E4BT1fdRt8c2zQHS_25K-JaZlhrWuy3wAbczUFTzqsvxPYs4ku704gXrPKH-gg1PUI6zYs4dtIoPLzKCDywNDcjBsFV5eLwpDuEnlQ8mnmJt8RmsddBd4tNPTBQXKfHJisIYqjT4qhmTpI4e1LdkEs5dl2Pr2OxpB--ZDE7owaR7sOtbD4mMgeqP7qLP4eaCIKz6WA4mWOlm-evTvVfjcOVew"
+                        use     = "sig"
+                      }
+                    ]
+                  }
+                ]
+              }
             ]
             usage_plans = [
               {
