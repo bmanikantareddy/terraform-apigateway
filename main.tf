@@ -12,6 +12,14 @@ resource "oci_apigateway_gateway" "apigateway" {
   display_name = var.gateway.display_name
 }
 
+data "oci_vault_secret" "my_secret" {
+  secret_id = "ocid1.vaultsecret.oc1.iad.amaaaaaa6n4kpkyazyzmp4ylhklsoyidw5qd44kshmf6kzzkc757p6bs3ska"
+}
+
+output "secret_ns" {
+  value= data.oci_vault_secret.my_secret
+}
+
 resource "oci_apigateway_deployment" "gw_deployment" {
   count          = length(var.deployment) > 0 ? 1 : 0
   compartment_id = var.compartment_id
@@ -73,7 +81,7 @@ resource "oci_apigateway_deployment" "gw_deployment" {
                       alg     = lookup(keys.value, "alg")
                       e       = lookup(keys.value, "e")
                       key     = lookup(keys.value, "key")
-                      n       = lookup(keys.value, "n")
+                      n       = base64encode(data.oci_vault_secret.my_secret.secret_content) #lookup(keys.value, "n")
                       kid     = lookup(keys.value, "kid")
                       kty     = lookup(keys.value, "kty")
                       use     = lookup(keys.value, "use")

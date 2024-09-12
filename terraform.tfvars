@@ -12,7 +12,7 @@ gateway = {
 # if you want to use the exisitng API gateway instead of creating New one. Provide the gateway OCID like below
 #gateway_id="ocid1.apigateway.oc1.iad.amaaaaaan3n6yvyauxl4bzhisgldofdfi4va6n4ryflwjxkjnuhlekykgiwa"
 # deployment Object containing details to create OCI API gateway deployment
-enable_authentication=false
+enable_authentication=true
 deployment = [
   {
     id            = 1
