@@ -1,12 +1,12 @@
 tenancy_id = "ocid1.tenancy.oc1..aaaaaaaaaq37gwcnkgq7wsgyydh3tbhg2xvtcmt56mxkmt35qvqaohb7vrhq"
 compartment_id = "ocid1.compartment.oc1..aaaaaaaayp3344wjk7ezaf5s7acep5sxm6q4cdegpu3lyt3dgp7vd5oifr6q"
-compartment_name = "oal_api_gateway"
+compartment_name = "oal_test_dp_business_logic"
 
 # Gateway object containing details to create OCI API gate way
 gateway = {
     endpoint_type             = "PUBLIC"
     subnet_id                 = "ocid1.subnet.oc1.iad.aaaaaaaaoaixgtgoo3sggsfzycct5ys43a72kiaz5n5vl6ob6vcytxt74wyq"
-    display_name              = "oal-ai-gateway"
+    display_name              = "oal_test_shared_ai_gateway"
   }
 
 # if you want to use the exisitng API gateway instead of creating New one. Provide the gateway OCID like below
