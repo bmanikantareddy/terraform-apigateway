@@ -321,6 +321,16 @@ subscriber = [
       }
     ]
   },
+  {
+    id = 4
+    display_name = "contractassist2"
+    clients = [
+      {
+        name  = "contractassist"
+        # token = "Uan8ECewIzhG4eZmzn7pGPRrL5TbGTKA6QBKEPa9bXA"
+      }
+    ]
+  },
 
 ]
 

@@ -202,28 +202,42 @@ resource "oci_apigateway_subscriber" "subscriber" {
     content {
       name  = lookup(clients.value, "name")
       token = base64encode(replace(uuid(), "-", "")) #lookup(clients.value, "token")
-
     }
   }
-}
 
-# Define the `oci_vault_secret` resource with required arguments
-resource "oci_vault_secret" "client_secrets" {
-  for_each = { for s in oci_apigateway_subscriber.subscriber : 
-                 for c in s.clients : 
-                 "${s.display_name}_${c.name}" => c.token 
-             }
-
-  compartment_id = var.compartment_id
-  vault_id        = "ocid1.vault.oc1.iad.bbpjuvrxaacuu.abuwcljrvdp4jh4s2lxsvveijlibdbod4sqdztzuykxt56hjpzenv66loz3a"
-  key_id          = "ocid1.key.oc1.iad.bbpjuvrxaacuu.abuwcljt2alb2uztw33iq3xkbyiqgsjqkeiyhsospr4zqcvck3enqygr3d2q"
-  secret_name     = each.key
-
-  secret_content {
-    content     = base64encode(each.value)
-    content_type = "BASE64"  # Assuming the token is a text type; adjust if necessary
+  # Add lifecycle block at the resource level
+  lifecycle {
+    ignore_changes = [
+      clients  # Ignore changes to the entire clients block, including the token
+    ]
   }
 }
+
+# resource "oci_vault_secret" "subscriber_secrets" {
+#   # for_each = {
+#   #   for subscriber in oci_apigateway_subscriber.subscriber :
+#   #     subscriber.display_name => {
+#   #       for client in subscriber.clients :
+#   #         client.name => client.token
+#   #     }
+#   # }
+
+#   for_each = {
+#     for subscriber in oci_apigateway_subscriber.subscriber :
+#     for client in subscriber.clients :
+#     "${subscriber.display_name}_${client.name}" => client.token
+#   }
+
+#   compartment_id = "ocid1.compartment.oc1.us-san-1.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" # Replace with your compartment ID
+#   vault_id        = "ocid1.vault.oc1.iad.bbpjuvrxaacuu.abuwcljrvdp4jh4s2lxsvveijlibdbod4sqdztzuykxt56hjpzenv66loz3a"
+#   key_id          = "ocid1.key.oc1.iad.bbpjuvrxaacuu.abuwcljt2alb2uztw33iq3xkbyiqgsjqkeiyhsospr4zqcvck3enqygr3d2q"
+#   secret_name = each.key
+
+#   secret_content {
+#     content     = base64encode(each.value)
+#     content_type = "BASE64"
+#   }
+# }
 
 # output "api_gateway_output" {
 #   value = {
