@@ -66,7 +66,7 @@ deployment = [
                 ]
               }
             ]
-            usage_plan = [
+            usage_plans = [
               {
                 token_locations = ["request.headers[client-id]"]
               }

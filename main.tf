@@ -93,9 +93,9 @@ resource "oci_apigateway_deployment" "gw_deployment" {
           }
 
           dynamic "usage_plans" {
-            for_each = lookup(request_policies.value, "usage_plan", [])
+            for_each = lookup(request_policies.value, "usage_plans", [])
             content {
-              token_locations = lookup(usage_plan.value, "token_locations")
+              token_locations = lookup(usage_plans.value, "token_locations")
             }
           }
         }
