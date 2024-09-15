@@ -146,29 +146,29 @@ resource "oci_apigateway_deployment" "gw_deployment" {
   }
 }
 
-# resource "oci_apigateway_usage_plan" "usageplan" {
-#   count          = length(var.usage_plan) > 0 ? 1 : 0
-#   compartment_id = var.compartment_id
-#   display_name = var.usage_plan.display_name
+resource "oci_apigateway_usage_plan" "usageplan" {
+  count          = length(var.usage_plan) > 0 ? 1 : 0
+  compartment_id = var.compartment_id
+  display_name = var.usage_plan.display_name
 
-#   entitlements{
-#     name = var.usage_plan.entitlement.name
-#     description = var.usage_plan.entitlement.description
-#     quota {
-#       operation_on_breach = var.usage_plan.entitlement.quota.operation_on_breach
-#       reset_policy = var.usage_plan.entitlement.quota.reset_policy
-#       unit = var.usage_plan.entitlement.quota.unit
-#       value = var.usage_plan.entitlement.quota.value
-#     }
-#     rate_limit {
-#       unit = var.usage_plan.entitlement.rate_limit.unit
-#       value = var.usage_plan.entitlement.rate_limit.value
-#     }
-#     targets {
-#       deployment_id = oci_apigateway_deployment.gw_deployment[0].id
-#     }
-#   }
-# }
+  entitlements{
+    name = var.usage_plan.entitlement.name
+    description = var.usage_plan.entitlement.description
+    quota {
+      operation_on_breach = var.usage_plan.entitlement.quota.operation_on_breach
+      reset_policy = var.usage_plan.entitlement.quota.reset_policy
+      unit = var.usage_plan.entitlement.quota.unit
+      value = var.usage_plan.entitlement.quota.value
+    }
+    rate_limit {
+      unit = var.usage_plan.entitlement.rate_limit.unit
+      value = var.usage_plan.entitlement.rate_limit.value
+    }
+    targets {
+      deployment_id = oci_apigateway_deployment.gw_deployment[0].id
+    }
+  }
+}
 
 # resource "oci_apigateway_subscriber" "subscriber" {
 #   count          = length(var.subscriber) > 0 ? 1 : 0
@@ -191,22 +191,39 @@ resource "oci_apigateway_deployment" "gw_deployment" {
 # }
 
 
-# resource "oci_apigateway_subscriber" "subscriber" {
-#   count          = length(var.subscriber)
-#   compartment_id = var.compartment_id
-#   usage_plans    = [oci_apigateway_usage_plan.usageplan[0].id]
+resource "oci_apigateway_subscriber" "subscriber" {
+  count          = length(var.subscriber)
+  compartment_id = var.compartment_id
+  usage_plans    = [oci_apigateway_usage_plan.usageplan[0].id]
 
-#   display_name = lookup(var.subscriber[count.index], "display_name")
-#   dynamic "clients" {
-#     for_each = lookup(var.subscriber[count.index], "clients")
-#     content {
-#       name  = lookup(clients.value, "name")
-#       token = lookup(clients.value, "token")
+  display_name = lookup(var.subscriber[count.index], "display_name")
+  dynamic "clients" {
+    for_each = lookup(var.subscriber[count.index], "clients")
+    content {
+      name  = lookup(clients.value, "name")
+      token = base64encode(replace(uuid(), "-", "")) #lookup(clients.value, "token")
 
-#     }
-#   }
-# }
+    }
+  }
+}
 
+# Define the `oci_vault_secret` resource with required arguments
+resource "oci_vault_secret" "client_secrets" {
+  for_each = { for s in oci_apigateway_subscriber.subscriber : 
+                 for c in s.clients : 
+                 "${s.display_name}_${c.name}" => c.token 
+             }
+
+  compartment_id = var.compartment_id
+  vault_id        = "ocid1.vault.oc1.iad.bbpjuvrxaacuu.abuwcljrvdp4jh4s2lxsvveijlibdbod4sqdztzuykxt56hjpzenv66loz3a"
+  key_id          = "ocid1.key.oc1.iad.bbpjuvrxaacuu.abuwcljt2alb2uztw33iq3xkbyiqgsjqkeiyhsospr4zqcvck3enqygr3d2q"
+  secret_name     = each.key
+
+  secret_content {
+    content     = base64encode(each.value)
+    content_type = "BASE64"  # Assuming the token is a text type; adjust if necessary
+  }
+}
 
 # output "api_gateway_output" {
 #   value = {

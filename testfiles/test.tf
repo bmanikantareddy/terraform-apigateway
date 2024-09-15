@@ -59,3 +59,22 @@ output "gateway_id" {
 output "display_name" {
   value = data.oci_apigateway_gateway.test_gateway.display_name
 }
+
+
+resource "oci_vault_secret" "test_secret" {
+    # Required
+    compartment_id = "ocid1.compartment.oc1..aaaaaaaabl7czxnk2u4dwczohgcrkkpboxyjaenp7pln7cfjmclaaf7dwr2a"
+    vault_id        = "ocid1.vault.oc1.iad.bbpjuvrxaacuu.abuwcljrvdp4jh4s2lxsvveijlibdbod4sqdztzuykxt56hjpzenv66loz3a"
+    secret_name     = "test-secret"
+    key_id = "ocid1.key.oc1.iad.ejtomwgkaaawm.abuwcljswabr3mcp73bzbud3flpnszq6rvn5cihgilphityt7y2n3publdua"
+
+    secret_content {
+        # Required
+        content_type = "BASE64"
+
+        # Optional
+        content = base64encode("ThisIsASecretValue")
+        name    = "my-secret-content"
+        stage   = "CURRENT"
+    }
+}
