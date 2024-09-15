@@ -52,6 +52,7 @@ resource "oci_apigateway_deployment" "gw_deployment" {
         content {
           dynamic "authentication" {
             for_each = lookup(request_policies.value, "authentication",[])
+            #for_each = var.enable_OAuth ? lookup(request_policies.value, "authentication", []) : []
             content {
               type                        = lookup(authentication.value, "type")
               audiences                   = [ oci_apigateway_gateway.apigateway.hostname ]
@@ -66,9 +67,7 @@ resource "oci_apigateway_deployment" "gw_deployment" {
               token_query_param           = lookup(authentication.value, "token_query_param")
 
               dynamic "public_keys" {
-                #for_each = lookup(authentication.value, "public_keys",[])
-                #for_each = var.enable_authentication ? lookup(request_policies.value, "authentication", []) : []
-                for_each = var.enable_authentication ? lookup(authentication.value, "public_keys", []) : []
+                for_each = lookup(authentication.value, "public_keys",[])
                 content {
                   type                        = lookup(public_keys.value, "type")
                   is_ssl_verify_disabled      = lookup(public_keys.value, "is_ssl_verify_disabled")
