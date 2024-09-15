@@ -437,7 +437,7 @@ variable "subscriber" {
     display_name  = optional(string)
     clients = list(object({
       name  = string
-      token = string
+      # token = string
     }))
   }))
   default = []

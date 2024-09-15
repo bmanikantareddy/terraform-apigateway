@@ -1,0 +1,522 @@
+# data.oci_apigateway_deployment.test_deployment:
+data "oci_apigateway_deployment" "test_deployment" {
+    compartment_id = "ocid1.compartment.oc1..aaaaaaaabl7czxnk2u4dwczohgcrkkpboxyjaenp7pln7cfjmclaaf7dwr2a"
+    defined_tags   = {
+        "Oracle-Tags.CreatedBy" = "default/vicky.chows@gmail.com"
+        "Oracle-Tags.CreatedOn" = "2024-08-18T05:30:11.322Z"
+    }
+    deployment_id  = "ocid1.apideployment.oc1.iad.amaaaaaan3n6yvyaoliqhad2sijnwpezo4llttarfk2nhwgcfzkmzifaazyq"
+    display_name   = "first_deployment"
+    endpoint       = "https://oy734l5n54mm6xcvxipiqrfcpi.apigateway.us-ashburn-1.oci.customer-oci.com/api/v1"
+    freeform_tags  = {
+        "environment" = "prod"
+        "team"        = "ola_devops"
+    }
+    gateway_id     = "ocid1.apigateway.oc1.iad.amaaaaaan3n6yvyauxl4bzhisgldofdfi4va6n4ryflwjxkjnuhlekykgiwa"
+    id             = "ocid1.apideployment.oc1.iad.amaaaaaan3n6yvyaoliqhad2sijnwpezo4llttarfk2nhwgcfzkmzifaazyq"
+    path_prefix    = "/api/v1"
+    specification  = [
+        {
+            logging_policies = [
+                {
+                    access_log    = [
+                        {
+                            is_enabled = true
+                        },
+                    ]
+                    execution_log = [
+                        {
+                            is_enabled = true
+                            log_level  = "INFO"
+                        },
+                    ]
+                },
+            ]
+            request_policies = [
+                {
+                    authentication         = []
+                    cors                   = []
+                    dynamic_authentication = []
+                    mutual_tls             = [
+                        {
+                            allowed_sans                     = []
+                            is_verified_certificate_required = false
+                        },
+                    ]
+                    rate_limiting          = []
+                    usage_plans            = [
+                        {
+                            token_locations = [
+                                "request.headers[client-id]",
+                            ]
+                        },
+                    ]
+                },
+            ]
+            routes           = [
+                {
+                    backend           = [
+                        {
+                            allowed_post_logout_uris   = []
+                            body                       = [90mnull[0m[0m
+                            connect_timeout_in_seconds = 60
+                            function_id                = [90mnull[0m[0m
+                            headers                    = []
+                            is_ssl_verify_disabled     = false
+                            post_logout_state          = [90mnull[0m[0m
+                            read_timeout_in_seconds    = 10
+                            routing_backends           = []
+                            selection_source           = []
+                            send_timeout_in_seconds    = 10
+                            status                     = 0
+                            type                       = "HTTP_BACKEND"
+                            url                        = "http://129.159.105.110/users"
+                        },
+                    ]
+                    logging_policies  = [
+                        {
+                            access_log    = [
+                                {
+                                    is_enabled = true
+                                },
+                            ]
+                            execution_log = [
+                                {
+                                    is_enabled = true
+                                    log_level  = "INFO"
+                                },
+                            ]
+                        },
+                    ]
+                    methods           = [
+                        "GET",
+                    ]
+                    path              = "/users"
+                    request_policies  = [
+                        {},
+                    ]
+                    response_policies = [
+                        {},
+                    ]
+                },
+                {
+                    backend           = [
+                        {
+                            allowed_post_logout_uris   = []
+                            body                       = [90mnull[0m[0m
+                            connect_timeout_in_seconds = 60
+                            function_id                = [90mnull[0m[0m
+                            headers                    = []
+                            is_ssl_verify_disabled     = false
+                            post_logout_state          = [90mnull[0m[0m
+                            read_timeout_in_seconds    = 10
+                            routing_backends           = []
+                            selection_source           = []
+                            send_timeout_in_seconds    = 10
+                            status                     = 0
+                            type                       = "HTTP_BACKEND"
+                            url                        = "http://129.159.105.110/users/${request.path[userid]}"
+                        },
+                    ]
+                    logging_policies  = [
+                        {
+                            access_log    = [
+                                {
+                                    is_enabled = true
+                                },
+                            ]
+                            execution_log = [
+                                {
+                                    is_enabled = true
+                                    log_level  = "INFO"
+                                },
+                            ]
+                        },
+                    ]
+                    methods           = [
+                        "GET",
+                    ]
+                    path              = "/users/{userid}"
+                    request_policies  = [
+                        {},
+                    ]
+                    response_policies = [
+                        {},
+                    ]
+                },
+                {
+                    backend           = [
+                        {
+                            allowed_post_logout_uris   = []
+                            body                       = [90mnull[0m[0m
+                            connect_timeout_in_seconds = 60
+                            function_id                = [90mnull[0m[0m
+                            headers                    = []
+                            is_ssl_verify_disabled     = false
+                            post_logout_state          = [90mnull[0m[0m
+                            read_timeout_in_seconds    = 10
+                            routing_backends           = []
+                            selection_source           = []
+                            send_timeout_in_seconds    = 10
+                            status                     = 0
+                            type                       = "HTTP_BACKEND"
+                            url                        = "https://api.weather.gov"
+                        },
+                    ]
+                    logging_policies  = [
+                        {
+                            access_log    = [
+                                {
+                                    is_enabled = true
+                                },
+                            ]
+                            execution_log = [
+                                {
+                                    is_enabled = true
+                                    log_level  = "INFO"
+                                },
+                            ]
+                        },
+                    ]
+                    methods           = [
+                        "GET",
+                    ]
+                    path              = "/hello"
+                    request_policies  = [
+                        {},
+                    ]
+                    response_policies = [
+                        {},
+                    ]
+                },
+                {
+                    backend           = [
+                        {
+                            allowed_post_logout_uris   = []
+                            body                       = [90mnull[0m[0m
+                            connect_timeout_in_seconds = 60
+                            function_id                = [90mnull[0m[0m
+                            headers                    = []
+                            is_ssl_verify_disabled     = false
+                            post_logout_state          = [90mnull[0m[0m
+                            read_timeout_in_seconds    = 10
+                            routing_backends           = []
+                            selection_source           = []
+                            send_timeout_in_seconds    = 10
+                            status                     = 0
+                            type                       = "HTTP_BACKEND"
+                            url                        = "https://api.weather.gov"
+                        },
+                    ]
+                    logging_policies  = [
+                        {
+                            access_log    = []
+                            execution_log = [
+                                {
+                                    is_enabled = false
+                                    log_level  = [90mnull[0m[0m
+                                },
+                            ]
+                        },
+                    ]
+                    methods           = [
+                        "GET",
+                    ]
+                    path              = "/weather"
+                    request_policies  = [
+                        {},
+                    ]
+                    response_policies = [
+                        {},
+                    ]
+                },
+            ]
+        },
+    ]
+    state          = "ACTIVE"
+    time_created   = "2024-08-18 05:30:11.408 +0000 UTC"
+    time_updated   = "2024-08-21 03:58:39.352 +0000 UTC"
+}
+
+# data.oci_apigateway_gateway.test_gateway:
+data "oci_apigateway_gateway" "test_gateway" {
+    ca_bundles                 = []
+    compartment_id             = "ocid1.compartment.oc1..aaaaaaaabl7czxnk2u4dwczohgcrkkpboxyjaenp7pln7cfjmclaaf7dwr2a"
+    defined_tags               = {
+        "Oracle-Tags.CreatedBy" = "default/vicky.chows@gmail.com"
+        "Oracle-Tags.CreatedOn" = "2024-08-23T13:07:00.722Z"
+    }
+    display_name               = "simple_gateway"
+    endpoint_type              = "PUBLIC"
+    freeform_tags              = {}
+    gateway_id                 = "ocid1.apigateway.oc1.iad.amaaaaaan3n6yvya3n62rwcwhs2aev72thjfmfkovo6ujozes2dlzkkoy4wa"
+    hostname                   = "k4eutjfchckbtoqmjxgpfjjq6u.apigateway.us-ashburn-1.oci.customer-oci.com"
+    id                         = "ocid1.apigateway.oc1.iad.amaaaaaan3n6yvya3n62rwcwhs2aev72thjfmfkovo6ujozes2dlzkkoy4wa"
+    ip_addresses               = [
+        {
+            ip_address = "129.80.251.35"
+        },
+    ]
+    network_security_group_ids = []
+    response_cache_details     = [
+        {
+            authentication_secret_id             = [90mnull[0m[0m
+            authentication_secret_version_number = [90mnull[0m[0m
+            connect_timeout_in_ms                = 0
+            is_ssl_enabled                       = false
+            is_ssl_verify_disabled               = false
+            read_timeout_in_ms                   = 0
+            send_timeout_in_ms                   = 0
+            servers                              = []
+            type                                 = "NONE"
+        },
+    ]
+    state                      = "ACTIVE"
+    subnet_id                  = "ocid1.subnet.oc1.iad.aaaaaaaavu5zwddbpm6pmq5c5vm2zn2c76t2ympznycmyi2htvxcuvrgau6a"
+    time_created               = "2024-08-23 13:07:02.095 +0000 UTC"
+    time_updated               = "2024-08-23 13:11:19.831 +0000 UTC"
+}
+
+
+Outputs:
+
+display_name = "simple_gateway"
+gateway_id = "ocid1.apigateway.oc1.iad.amaaaaaan3n6yvya3n62rwcwhs2aev72thjfmfkovo6ujozes2dlzkkoy4wa"
+oci_apigateway_deployment_output = {
+    compartment_id = "ocid1.compartment.oc1..aaaaaaaabl7czxnk2u4dwczohgcrkkpboxyjaenp7pln7cfjmclaaf7dwr2a"
+    defined_tags   = {
+        "Oracle-Tags.CreatedBy" = "default/vicky.chows@gmail.com"
+        "Oracle-Tags.CreatedOn" = "2024-08-18T05:30:11.322Z"
+    }
+    deployment_id  = "ocid1.apideployment.oc1.iad.amaaaaaan3n6yvyaoliqhad2sijnwpezo4llttarfk2nhwgcfzkmzifaazyq"
+    display_name   = "first_deployment"
+    endpoint       = "https://oy734l5n54mm6xcvxipiqrfcpi.apigateway.us-ashburn-1.oci.customer-oci.com/api/v1"
+    freeform_tags  = {
+        "environment" = "prod"
+        "team"        = "ola_devops"
+    }
+    gateway_id     = "ocid1.apigateway.oc1.iad.amaaaaaan3n6yvyauxl4bzhisgldofdfi4va6n4ryflwjxkjnuhlekykgiwa"
+    id             = "ocid1.apideployment.oc1.iad.amaaaaaan3n6yvyaoliqhad2sijnwpezo4llttarfk2nhwgcfzkmzifaazyq"
+    path_prefix    = "/api/v1"
+    specification  = [
+        {
+            logging_policies = [
+                {
+                    access_log    = [
+                        {
+                            is_enabled = true
+                        },
+                    ]
+                    execution_log = [
+                        {
+                            is_enabled = true
+                            log_level  = "INFO"
+                        },
+                    ]
+                },
+            ]
+            request_policies = [
+                {
+                    authentication         = []
+                    cors                   = []
+                    dynamic_authentication = []
+                    mutual_tls             = [
+                        {
+                            allowed_sans                     = []
+                            is_verified_certificate_required = false
+                        },
+                    ]
+                    rate_limiting          = []
+                    usage_plans            = [
+                        {
+                            token_locations = [
+                                "request.headers[client-id]",
+                            ]
+                        },
+                    ]
+                },
+            ]
+            routes           = [
+                {
+                    backend           = [
+                        {
+                            allowed_post_logout_uris   = []
+                            body                       = [90mnull[0m[0m
+                            connect_timeout_in_seconds = 60
+                            function_id                = [90mnull[0m[0m
+                            headers                    = []
+                            is_ssl_verify_disabled     = false
+                            post_logout_state          = [90mnull[0m[0m
+                            read_timeout_in_seconds    = 10
+                            routing_backends           = []
+                            selection_source           = []
+                            send_timeout_in_seconds    = 10
+                            status                     = 0
+                            type                       = "HTTP_BACKEND"
+                            url                        = "http://129.159.105.110/users"
+                        },
+                    ]
+                    logging_policies  = [
+                        {
+                            access_log    = [
+                                {
+                                    is_enabled = true
+                                },
+                            ]
+                            execution_log = [
+                                {
+                                    is_enabled = true
+                                    log_level  = "INFO"
+                                },
+                            ]
+                        },
+                    ]
+                    methods           = [
+                        "GET",
+                    ]
+                    path              = "/users"
+                    request_policies  = [
+                        {},
+                    ]
+                    response_policies = [
+                        {},
+                    ]
+                },
+                {
+                    backend           = [
+                        {
+                            allowed_post_logout_uris   = []
+                            body                       = [90mnull[0m[0m
+                            connect_timeout_in_seconds = 60
+                            function_id                = [90mnull[0m[0m
+                            headers                    = []
+                            is_ssl_verify_disabled     = false
+                            post_logout_state          = [90mnull[0m[0m
+                            read_timeout_in_seconds    = 10
+                            routing_backends           = []
+                            selection_source           = []
+                            send_timeout_in_seconds    = 10
+                            status                     = 0
+                            type                       = "HTTP_BACKEND"
+                            url                        = "http://129.159.105.110/users/${request.path[userid]}"
+                        },
+                    ]
+                    logging_policies  = [
+                        {
+                            access_log    = [
+                                {
+                                    is_enabled = true
+                                },
+                            ]
+                            execution_log = [
+                                {
+                                    is_enabled = true
+                                    log_level  = "INFO"
+                                },
+                            ]
+                        },
+                    ]
+                    methods           = [
+                        "GET",
+                    ]
+                    path              = "/users/{userid}"
+                    request_policies  = [
+                        {},
+                    ]
+                    response_policies = [
+                        {},
+                    ]
+                },
+                {
+                    backend           = [
+                        {
+                            allowed_post_logout_uris   = []
+                            body                       = [90mnull[0m[0m
+                            connect_timeout_in_seconds = 60
+                            function_id                = [90mnull[0m[0m
+                            headers                    = []
+                            is_ssl_verify_disabled     = false
+                            post_logout_state          = [90mnull[0m[0m
+                            read_timeout_in_seconds    = 10
+                            routing_backends           = []
+                            selection_source           = []
+                            send_timeout_in_seconds    = 10
+                            status                     = 0
+                            type                       = "HTTP_BACKEND"
+                            url                        = "https://api.weather.gov"
+                        },
+                    ]
+                    logging_policies  = [
+                        {
+                            access_log    = [
+                                {
+                                    is_enabled = true
+                                },
+                            ]
+                            execution_log = [
+                                {
+                                    is_enabled = true
+                                    log_level  = "INFO"
+                                },
+                            ]
+                        },
+                    ]
+                    methods           = [
+                        "GET",
+                    ]
+                    path              = "/hello"
+                    request_policies  = [
+                        {},
+                    ]
+                    response_policies = [
+                        {},
+                    ]
+                },
+                {
+                    backend           = [
+                        {
+                            allowed_post_logout_uris   = []
+                            body                       = [90mnull[0m[0m
+                            connect_timeout_in_seconds = 60
+                            function_id                = [90mnull[0m[0m
+                            headers                    = []
+                            is_ssl_verify_disabled     = false
+                            post_logout_state          = [90mnull[0m[0m
+                            read_timeout_in_seconds    = 10
+                            routing_backends           = []
+                            selection_source           = []
+                            send_timeout_in_seconds    = 10
+                            status                     = 0
+                            type                       = "HTTP_BACKEND"
+                            url                        = "https://api.weather.gov"
+                        },
+                    ]
+                    logging_policies  = [
+                        {
+                            access_log    = []
+                            execution_log = [
+                                {
+                                    is_enabled = false
+                                    log_level  = [90mnull[0m[0m
+                                },
+                            ]
+                        },
+                    ]
+                    methods           = [
+                        "GET",
+                    ]
+                    path              = "/weather"
+                    request_policies  = [
+                        {},
+                    ]
+                    response_policies = [
+                        {},
+                    ]
+                },
+            ]
+        },
+    ]
+    state          = "ACTIVE"
+    time_created   = "2024-08-18 05:30:11.408 +0000 UTC"
+    time_updated   = "2024-08-21 03:58:39.352 +0000 UTC"
+}

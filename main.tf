@@ -190,6 +190,7 @@ resource "oci_apigateway_deployment" "gw_deployment" {
 #   # }
 # }
 
+
 # resource "oci_apigateway_subscriber" "subscriber" {
 #   count          = length(var.subscriber)
 #   compartment_id = var.compartment_id

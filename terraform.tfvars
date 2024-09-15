@@ -66,7 +66,7 @@ deployment = [
                 ]
               }
             ]
-            usage_plans = [
+            usage_plan = [
               {
                 token_locations = ["request.headers[client-id]"]
               }
@@ -262,7 +262,7 @@ deployment = [
 
 
 usage_plan =   {
-    display_name = "aiops_team"
+    display_name = "aiops_team1"
     entitlement = {
         name        = "aiops"
         description = "aiops team plan"
@@ -283,41 +283,41 @@ usage_plan =   {
 subscriber = [
   {
     id = 1
-    display_name = "oTech"
+    display_name = "oTech1"
     clients = [
       {
         name  = "oTech"
-        token = "Q0v23abPwVyKnDlxgk5YnssrRonyktzHx2zsfY-BcRA"
+        # token = "Q0v23abPwVyKnDlxgk5YnssrRonyktzHx2zsfY-BcRA"
       }
     ]
   },
   {
     id = 2
-    display_name = "agent49"
+    display_name = "agent491"
     clients = [
       {
         name  = "agent49"
-        token = "CKxh6AvPsYvWNrh4Qy5U0hbDpxQ4yBWdGSEYzzXGeQg"
+        # token = "CKxh6AvPsYvWNrh4Qy5U0hbDpxQ4yBWdGSEYzzXGeQg"
       }
     ]
   },
   {
     id = 3
-    display_name = "biops_team"
+    display_name = "biops_team1"
     clients = [
       {
         name  = "biops"
-        token = "b6CCuqfyG8SQRPvqET8PsCxxBLVQMHlhcA901eLImtM"
+        # token = "b6CCuqfyG8SQRPvqET8PsCxxBLVQMHlhcA901eLImtM"
       }
     ]
   },
   {
     id = 4
-    display_name = "contractassist"
+    display_name = "contractassist1"
     clients = [
       {
         name  = "contractassist"
-        token = "Uan8ECewIzhG4eZmzn7pGPRrL5TbGTKA6QBKEPa9bXA"
+        # token = "Uan8ECewIzhG4eZmzn7pGPRrL5TbGTKA6QBKEPa9bXA"
       }
     ]
   },

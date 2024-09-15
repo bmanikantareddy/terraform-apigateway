@@ -3,15 +3,15 @@
 # #     gateway_id = "ocid1.apigateway.oc1.iad.amaaaaaaz4fdncaafnetzfsah2if27tmqz44cuo6fmo77wjdqhcych5g76oq"
 # # }
 
-# # data "oci_apigateway_deployment" "test_deployment" {
-# #     #Required
-# #     #deployment_id = "ocid1.apideployment.oc1.iad.amaaaaaaz4fdncaahqpfezktvoup4sbx6iwsatay6kz2pmsxfsx37sjpnpgq"
-# #     deployment_id = "ocid1.apideployment.oc1.iad.amaaaaaaz4fdncaahev6wnwbes732mqanky63fdzjqtcvthuo7xvf7ajk3da"
-# # }
+data "oci_apigateway_deployment" "test_deployment" {
+    #Required
+    #deployment_id = "ocid1.apideployment.oc1.iad.amaaaaaaz4fdncaahqpfezktvoup4sbx6iwsatay6kz2pmsxfsx37sjpnpgq"
+    deployment_id = "ocid1.apideployment.oc1.iad.amaaaaaan3n6yvyaoliqhad2sijnwpezo4llttarfk2nhwgcfzkmzifaazyq"
+}
 
-# # output "oci_apigateway_deployment_output" {
-# #     value = data.oci_apigateway_deployment.test_deployment
-# # }
+output "oci_apigateway_deployment_output" {
+    value = data.oci_apigateway_deployment.test_deployment
+}
 
 
 # data "oci_apigateway_usage_plan" "test_usage_plan" {
@@ -44,7 +44,7 @@
 
 
 data "oci_apigateway_gateway" "test_gateway" {
-    gateway_id = "ocid1.apigateway.oc1.iad.amaaaaaa6n4kpkya43f77bq7pcyxi636fjzk6sf2ufl5pdf56lcpvwpq52ha"
+    gateway_id = "ocid1.apigateway.oc1.iad.amaaaaaan3n6yvya3n62rwcwhs2aev72thjfmfkovo6ujozes2dlzkkoy4wa"
 }
 
 # output "oci_apigateway_gateway_output" {
